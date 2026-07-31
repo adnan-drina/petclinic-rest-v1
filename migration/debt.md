@@ -2,6 +2,7 @@
 
 (none)
 
-## gatefix-r1 — task RED
-- head: d5b921e
-- reason: sensor-fix committed but task still RED (commit reset)
+## gatefix-r1 — RESOLVED (O-GATESCOPE)
+- was: task RED after scope reverted factory-named DTO edits
+- fix: scope_enforce allowlist + restore DTO component BV from 213d74e
+- head: 3ab9fbc
