@@ -108,37 +108,30 @@ class VetDtoTest {
     }
 
     @Test
-    void testInvalidTooLongFirstName() {
-        String longName = "a".repeat(31); // Exceeds max size of 30
+    void shouldFailValidationForInvalidFirstNames() {
         List<SpecialtyDto> specialties = new ArrayList<>();
-        VetDto dto = new VetDto(1, longName, "Doe", specialties);
-        Set<ConstraintViolation<VetDto>> violations = validator.validate(dto);
         
-        assertEquals(1, violations.size());
-        ConstraintViolation<VetDto> violation = violations.iterator().next();
-        assertEquals("firstName", violation.getPropertyPath().toString());
-    }
-
-    @Test
-    void testInvalidNonAlphabeticFirstName() {
-        List<SpecialtyDto> specialties = new ArrayList<>();
-        VetDto dto = new VetDto(1, "John123", "Doe", specialties);
-        Set<ConstraintViolation<VetDto>> violations = validator.validate(dto);
-        
-        assertEquals(1, violations.size());
-        ConstraintViolation<VetDto> violation = violations.iterator().next();
-        assertEquals("firstName", violation.getPropertyPath().toString());
-    }
-
-    @Test
-    void testInvalidEmptyFirstName() {
-        List<SpecialtyDto> specialties = new ArrayList<>();
+        // Test empty name
         VetDto dto = new VetDto(1, "", "Doe", specialties);
         Set<ConstraintViolation<VetDto>> violations = validator.validate(dto);
-        
         assertEquals(1, violations.size());
         ConstraintViolation<VetDto> violation = violations.iterator().next();
         assertEquals("firstName", violation.getPropertyPath().toString());
+        
+        // Test non-alphabetic name
+        VetDto dto2 = new VetDto(1, "John123", "Doe", specialties);
+        Set<ConstraintViolation<VetDto>> violations2 = validator.validate(dto2);
+        assertEquals(1, violations2.size());
+        ConstraintViolation<VetDto> violation2 = violations2.iterator().next();
+        assertEquals("firstName", violation2.getPropertyPath().toString());
+        
+        // Test too long name
+        String longName = "a".repeat(31); // Exceeds max size of 30
+        VetDto dto3 = new VetDto(1, longName, "Doe", specialties);
+        Set<ConstraintViolation<VetDto>> violations3 = validator.validate(dto3);
+        assertEquals(1, violations3.size());
+        ConstraintViolation<VetDto> violation3 = violations3.iterator().next();
+        assertEquals("firstName", violation3.getPropertyPath().toString());
     }
 
     @Test
