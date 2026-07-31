@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Size;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-31T09:31:57.203304122Z[GMT]")
 public record SpecialtyDto(
     @JsonProperty("id")
+    @Min(0)
     Integer id,
     
     @JsonProperty("name")
@@ -18,22 +19,4 @@ public record SpecialtyDto(
     @Size(min=1,max=80) 
     String name
 ) {
-    
-    /**
-     * The ID of the specialty.
-     * minimum: 0
-     * @return id
-     */
-    public @Min(0) Integer id() {
-        return id;
-    }
-    
-    /**
-     * The name of the specialty.
-     * @return name
-     */
-    public String name() {
-        return name;
-    }
 }
-
