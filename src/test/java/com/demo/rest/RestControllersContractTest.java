@@ -19,11 +19,11 @@ class RestControllersContractTest {
     @DisplayName("GET collection endpoints return 200 or 404 when empty")
     void collectionEndpoints() {
         for (String path : new String[] {
-            "/petclinic/api/pets",
-            "/petclinic/api/vets",
-            "/petclinic/api/petTypes",
-            "/petclinic/api/specialties",
-            "/petclinic/api/visits"
+            "/api/pets",
+            "/api/vets",
+            "/api/petTypes",
+            "/api/specialties",
+            "/api/visits"
         }) {
             given().when().get(path).then().statusCode(anyOf(is(200), is(404)));
         }
@@ -33,11 +33,11 @@ class RestControllersContractTest {
     @DisplayName("GET missing ids return 404")
     void missingIds() {
         for (String path : new String[] {
-            "/petclinic/api/pets/999999",
-            "/petclinic/api/vets/999999",
-            "/petclinic/api/petTypes/999999",
-            "/petclinic/api/specialties/999999",
-            "/petclinic/api/visits/999999"
+            "/api/pets/999999",
+            "/api/vets/999999",
+            "/api/petTypes/999999",
+            "/api/specialties/999999",
+            "/api/visits/999999"
         }) {
             given().when().get(path).then().statusCode(404);
         }

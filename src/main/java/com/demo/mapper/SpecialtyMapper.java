@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Map Specialty & SpecialtyDto using mapstruct
  */
-@Mapper(componentModel = "jakarta")
+@Mapper(componentModel = "jakarta-cdi")
 public interface SpecialtyMapper {
     Specialty toSpecialty(SpecialtyDto specialtyDto);
 

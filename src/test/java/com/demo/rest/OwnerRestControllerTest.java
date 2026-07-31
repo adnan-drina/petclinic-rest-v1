@@ -24,7 +24,7 @@ import io.restassured.http.ContentType;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class OwnerRestControllerTest {
 
-    private static final String OWNERS = "/petclinic/api/owners";
+    private static final String OWNERS = "/api/owners";
     private static Integer createdId;
 
     @Test

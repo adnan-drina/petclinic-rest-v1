@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Map Vet & VetoDto using mapstruct
  */
-@Mapper(componentModel = "jakarta", uses = SpecialtyMapper.class)
+@Mapper(componentModel = "jakarta-cdi", uses = SpecialtyMapper.class)
 public interface VetMapper {
     Vet toVet(VetDto vetDto);
 

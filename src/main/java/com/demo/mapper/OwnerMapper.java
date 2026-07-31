@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Maps Owner & OwnerDto using Mapstruct
  */
-@Mapper(componentModel = "jakarta", uses = PetMapper.class)
+@Mapper(componentModel = "jakarta-cdi", uses = PetMapper.class)
 public interface OwnerMapper {
 
     OwnerDto toOwnerDto(Owner owner);

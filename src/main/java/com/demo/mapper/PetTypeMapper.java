@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Map PetType & PetTypeDto using mapstruct
  */
-@Mapper(componentModel = "jakarta")
+@Mapper(componentModel = "jakarta-cdi")
 public interface PetTypeMapper {
 
     PetType toPetType(PetTypeDto petTypeDto);

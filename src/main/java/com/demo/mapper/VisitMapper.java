@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Map Visit & VisitDto using mapstruct
  */
-@Mapper(componentModel = "jakarta", uses = PetMapper.class)
+@Mapper(componentModel = "jakarta-cdi", uses = PetMapper.class)
 public interface VisitMapper {
     Visit toVisit(VisitDto visitDto);
 
