@@ -5,7 +5,3 @@ follow-up run or a human steering-loop improvement (better spec, better
 skill, better sensor) — never by weakening the sensors.
 
 (none)
-
-## T-011 — milestone RED
-- head: f8ff7df
-- reason: sensor-fix committed but milestone still RED (commit reset)

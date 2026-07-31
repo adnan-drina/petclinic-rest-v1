@@ -31,25 +31,29 @@ import java.util.List;
 
 @ApplicationScoped
 public class SpringDataPetTypeRepositoryImpl implements PetTypeRepositoryOverride {
-	
-	@Inject
-    private EntityManager em;
+    
+    private final EntityManager em;
+
+    @Inject
+    public SpringDataPetTypeRepositoryImpl(EntityManager em) {
+        this.em = em;
+    }
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void delete(PetType petType) {
-        this.em.remove(this.em.contains(petType) ? petType : this.em.merge(petType));
+        em.remove(em.contains(petType) ? petType : em.merge(petType));
 		Integer petTypeId = petType.getId();
 		
-		List<Pet> pets = this.em.createQuery("SELECT pet FROM Pet pet WHERE type_id=" + petTypeId).getResultList();
+		List<Pet> pets = em.createQuery("SELECT pet FROM Pet pet WHERE type_id=" + petTypeId).getResultList();
 		for (Pet pet : pets){
 			List<Visit> visits = pet.getVisits();
 			for (Visit visit : visits){
-				this.em.createQuery("DELETE FROM Visit visit WHERE id=" + visit.getId()).executeUpdate();
+				em.createQuery("DELETE FROM Visit visit WHERE id=" + visit.getId()).executeUpdate();
 			}
-			this.em.createQuery("DELETE FROM Pet pet WHERE id=" + pet.getId()).executeUpdate();
+			em.createQuery("DELETE FROM Pet pet WHERE id=" + pet.getId()).executeUpdate();
 		}
-		this.em.createQuery("DELETE FROM PetType pettype WHERE id=" + petTypeId).executeUpdate();
+		em.createQuery("DELETE FROM PetType pettype WHERE id=" + petTypeId).executeUpdate();
 	}
 
 }

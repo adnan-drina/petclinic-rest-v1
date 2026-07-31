@@ -28,14 +28,18 @@ import com.demo.model.Visit;
 
 @ApplicationScoped
 public class SpringDataVisitRepositoryImpl implements VisitRepositoryOverride {
-	
-	@Inject
-    private EntityManager em;
+    
+    private final EntityManager em;
+
+    @Inject
+    public SpringDataVisitRepositoryImpl(EntityManager em) {
+        this.em = em;
+    }
 
 	@Override
 	public void delete(Visit visit) {
 		String visitId = visit.getId().toString();
-		this.em.createQuery("DELETE FROM Visit visit WHERE id=" + visitId).executeUpdate();
+		em.createQuery("DELETE FROM Visit visit WHERE id=" + visitId).executeUpdate();
         if (em.contains(visit)) {
             em.remove(visit);
         }

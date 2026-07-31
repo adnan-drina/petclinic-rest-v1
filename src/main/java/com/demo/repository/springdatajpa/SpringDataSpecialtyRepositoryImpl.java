@@ -28,16 +28,20 @@ import com.demo.model.Specialty;
 
 @ApplicationScoped
 public class SpringDataSpecialtyRepositoryImpl implements SpecialtyRepositoryOverride {
-	
-	@Inject
-    private EntityManager em;
+    
+    private final EntityManager em;
+
+    @Inject
+    public SpringDataSpecialtyRepositoryImpl(EntityManager em) {
+        this.em = em;
+    }
 
 	@Override
 	public void delete(Specialty specialty) {
-        this.em.remove(this.em.contains(specialty) ? specialty : this.em.merge(specialty));
+        em.remove(em.contains(specialty) ? specialty : em.merge(specialty));
 		Integer specId = specialty.getId();
-		this.em.createNativeQuery("DELETE FROM vet_specialties WHERE specialty_id=" + specId).executeUpdate();
-		this.em.createQuery("DELETE FROM Specialty specialty WHERE id=" + specId).executeUpdate();
+		em.createNativeQuery("DELETE FROM vet_specialties WHERE specialty_id=" + specId).executeUpdate();
+		em.createQuery("DELETE FROM Specialty specialty WHERE id=" + specId).executeUpdate();
 	}
 
 }
