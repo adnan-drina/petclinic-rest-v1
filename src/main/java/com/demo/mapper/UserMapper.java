@@ -11,7 +11,7 @@ import java.util.Collection;
 /**
  * Map User/Role & UserDto/RoleDto using mapstruct
  */
-@Mapper
+@Mapper(componentModel = "jakarta")
 public interface UserMapper {
     Role toRole(RoleDto roleDto);
 
