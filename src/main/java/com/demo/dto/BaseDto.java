@@ -1,5 +1,7 @@
 package com.demo.dto;
 
+import java.util.Objects;
+
 /**
  * Base DTO class with common functionality for all DTOs.
  */

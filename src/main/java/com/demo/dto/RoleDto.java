@@ -14,4 +14,13 @@ public record RoleDto(
     @Size(min=1,max=80) 
     String name
 ) {
+    
+    /**
+     * The role's name
+     * @return name
+     */
+    public String name() {
+        return name;
+    }
 }
+

@@ -15,7 +15,6 @@ import java.util.List;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2026-07-31T09:31:57.203304122Z[GMT]")
 public record VetDto(
     @JsonProperty("id")
-    @Min(0)
     Integer id,
     
     @JsonProperty("firstName")
@@ -33,6 +32,31 @@ public record VetDto(
     @Valid
     List<SpecialtyDto> specialties
 ) {
+    
+    /**
+     * The ID of the vet.
+     * minimum: 0
+     * @return id
+     */
+    public @Min(0) Integer id() {
+        return id;
+    }
+    
+    /**
+     * The first name of the vet.
+     * @return firstName
+     */
+    public String firstName() {
+        return firstName;
+    }
+    
+    /**
+     * The last name of the vet.
+     * @return lastName
+     */
+    public String lastName() {
+        return lastName;
+    }
     
     /**
      * The specialties of the vet.
