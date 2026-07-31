@@ -12,11 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SpecialtyTest {
 
-    private Specialty specialty;
+    private Specialty fixture;
 
     @BeforeEach
     void setUp() {
-        specialty = new Specialty();
+        fixture = new Specialty();
     }
 
     @Nested
@@ -26,50 +26,50 @@ class SpecialtyTest {
         @Test
         @DisplayName("name is null by default")
         void nameIsNullByDefault() {
-            assertThat(specialty.getName()).isNull();
+            assertThat(fixture.getName()).isNull();
         }
 
         @Test
         @DisplayName("setName sets the name")
         void setNameSetsName() {
-            specialty.setName("Cardiology");
-            assertThat(specialty.getName()).isEqualTo("Cardiology");
+            fixture.setName("Cardiology");
+            assertThat(fixture.getName()).isEqualTo("Cardiology");
         }
 
         @Test
         @DisplayName("setName overwrites previous name")
         void setNameOverwritesPreviousName() {
-            specialty.setName("Surgery");
-            specialty.setName("Radiology");
-            assertThat(specialty.getName()).isEqualTo("Radiology");
+            fixture.setName("Surgery");
+            fixture.setName("Radiology");
+            assertThat(fixture.getName()).isEqualTo("Radiology");
         }
 
         @Test
         @DisplayName("setName to null resets name")
         void setNameToNull() {
-            specialty.setName("Dentistry");
-            specialty.setName(null);
-            assertThat(specialty.getName()).isNull();
+            fixture.setName("Dentistry");
+            fixture.setName(null);
+            assertThat(fixture.getName()).isNull();
         }
 
         @Test
         @DisplayName("toString returns name when set")
         void toStringReturnsNameWhenSet() {
-            specialty.setName("Dermatology");
-            assertThat(specialty.toString()).isEqualTo("Dermatology");
+            fixture.setName("Dermatology");
+            assertThat(fixture).hasToString("Dermatology");
         }
 
         @Test
         @DisplayName("toString returns null when name is null")
         void toStringReturnsNullWhenNameIsNull() {
-            assertThat(specialty.toString()).isNull();
+            assertThat(fixture.toString()).isNull();
         }
 
         @Test
         @DisplayName("empty name returns empty string in toString")
         void emptyNameReturnsEmptyStringInToString() {
-            specialty.setName("");
-            assertThat(specialty.toString()).isEmpty();
+            fixture.setName("");
+            assertThat(fixture.toString()).isEmpty();
         }
     }
 
@@ -80,29 +80,29 @@ class SpecialtyTest {
         @Test
         @DisplayName("extends NamedEntity")
         void extendsNamedEntity() {
-            assertThat(specialty).isInstanceOf(NamedEntity.class);
+            assertThat(fixture).isInstanceOf(NamedEntity.class);
         }
 
         @Test
         @DisplayName("extends BaseEntity through NamedEntity")
         void extendsBaseEntityThroughNamedEntity() {
-            assertThat(specialty).isInstanceOf(BaseEntity.class);
+            assertThat(fixture).isInstanceOf(BaseEntity.class);
         }
 
         @Test
         @DisplayName("inherits id lifecycle methods from BaseEntity")
         void inheritsIdLifecycleMethodsFromBaseEntity() {
-            assertThat(specialty.getId()).isNull();
-            specialty.setId(42);
-            assertThat(specialty.getId()).isEqualTo(42);
+            assertThat(fixture.getId()).isNull();
+            fixture.setId(42);
+            assertThat(fixture.getId()).isEqualTo(42);
         }
 
         @Test
         @DisplayName("inherits isNew lifecycle method from BaseEntity")
         void inheritsIsNewLifecycleMethodFromBaseEntity() {
-            assertThat(specialty.isNew()).isTrue();
-            specialty.setId(1);
-            assertThat(specialty.isNew()).isFalse();
+            assertThat(fixture.isNew()).isTrue();
+            fixture.setId(1);
+            assertThat(fixture.isNew()).isFalse();
         }
 
         @Test
@@ -199,7 +199,7 @@ class SpecialtyTest {
         }
 
         @Test
-        @DisplayName("can handle multi-word specialty names")
+        @DisplayName("can handle multi-word fixture names")
         void canHandleMultiWordSpecialtyNames() {
             var specialty1 = new Specialty();
             specialty1.setName("Emergency Medicine");
@@ -211,11 +211,11 @@ class SpecialtyTest {
         }
 
         @Test
-        @DisplayName("can handle specialty names with abbreviations")
+        @DisplayName("can handle fixture names with abbreviations")
         void canHandleSpecialtyNamesWithAbbreviations() {
             var specialty = new Specialty();
-            specialty.setName("DVM");
-            assertThat(specialty.getName()).isEqualTo("DVM");
+            fixture.setName("DVM");
+            assertThat(fixture.getName()).isEqualTo("DVM");
 
             var specialty2 = new Specialty();
             specialty2.setName("PhD");
@@ -225,15 +225,15 @@ class SpecialtyTest {
         @Test
         @DisplayName("is new when id is null regardless of name")
         void isNewWhenIdIsNullRegardlessOfName() {
-            specialty.setName("Surgery");
-            assertThat(specialty.isNew()).isTrue();
+            fixture.setName("Surgery");
+            assertThat(fixture.isNew()).isTrue();
         }
 
         @Test
         @DisplayName("is not new when id is set even if name is null")
         void isNotNewWhenIdIsSetEvenIfNameIsNull() {
-            specialty.setId(1);
-            assertThat(specialty.isNew()).isFalse();
+            fixture.setId(1);
+            assertThat(fixture.isNew()).isFalse();
         }
     }
 
@@ -281,17 +281,17 @@ class SpecialtyTest {
         }
 
         @Test
-        @DisplayName("multiple vets can have same specialty")
+        @DisplayName("multiple vets can have same fixture")
         void multipleVetsCanHaveSameSpecialty() {
             var surgery = new Specialty();
             surgery.setName("Surgery");
 
-            // Multiple vets can have the same specialty (ManyToMany relationship)
+            // Multiple vets can have the same fixture (ManyToMany relationship)
             assertThat(surgery.getName()).isEqualTo("Surgery");
         }
 
         @Test
-        @DisplayName("specialty can be null in Vet entity")
+        @DisplayName("fixture can be null in Vet entity")
         void specialtyCanBeNullInVetEntity() {
             var vet = new Vet();
             // Vet can have no specialties
@@ -307,19 +307,17 @@ class SpecialtyTest {
         @DisplayName("complete inheritance chain works correctly")
         void completeInheritanceChainWorksCorrectly() {
             var specialty = new Specialty();
-            specialty.setId(100);
-            specialty.setName("Cardiology");
+            fixture.setId(100);
+            fixture.setName("Cardiology");
 
             // Test all levels of the inheritance chain
-            assertThat(specialty).isInstanceOf(Specialty.class);
-            assertThat(specialty).isInstanceOf(NamedEntity.class);
-            assertThat(specialty).isInstanceOf(BaseEntity.class);
+            assertThat(fixture).isInstanceOf(Specialty.class).isInstanceOf(NamedEntity.class).isInstanceOf(BaseEntity.class);
 
             // Test all inherited methods work
-            assertThat(specialty.getId()).isEqualTo(100);
-            assertThat(specialty.getName()).isEqualTo("Cardiology");
-            assertThat(specialty.isNew()).isFalse();
-            assertThat(specialty.toString()).isEqualTo("Cardiology");
+            assertThat(fixture.getId()).isEqualTo(100);
+            assertThat(fixture.getName()).isEqualTo("Cardiology");
+            assertThat(fixture.isNew()).isFalse();
+            assertThat(fixture).hasToString("Cardiology");
         }
 
         @Test
@@ -362,11 +360,11 @@ class SpecialtyTest {
     class EdgeCases {
 
         @Test
-        @DisplayName("can handle very long specialty names")
+        @DisplayName("can handle very long fixture names")
         void canHandleVeryLongSpecialtyNames() {
-            var longName = "This is a very long specialty name that might be used for specialized veterinary medicine or research fields";
-            specialty.setName(longName);
-            assertThat(specialty.getName()).isEqualTo(longName);
+            var longName = "This is a very long fixture name that might be used for specialized veterinary medicine or research fields";
+            fixture.setName(longName);
+            assertThat(fixture.getName()).isEqualTo(longName);
         }
 
         @Test
@@ -385,8 +383,8 @@ class SpecialtyTest {
         @DisplayName("can handle Unicode characters")
         void canHandleUnicodeCharacters() {
             var specialty = new Specialty();
-            specialty.setName("专科医科 (Specialty)");
-            assertThat(specialty.getName()).isEqualTo("专科医科 (Specialty)");
+            fixture.setName("专科医科 (Specialty)");
+            assertThat(fixture.getName()).isEqualTo("专科医科 (Specialty)");
         }
 
         @Test
@@ -406,33 +404,33 @@ class SpecialtyTest {
         @DisplayName("can be created with null name")
         void canBeCreatedWithNullName() {
             var specialty = new Specialty();
-            assertThat(specialty.getName()).isNull();
-            assertThat(specialty.toString()).isNull();
+            assertThat(fixture.getName()).isNull();
+            assertThat(fixture.toString()).isNull();
         }
 
         @Test
         @DisplayName("can be created with empty name")
         void canBeCreatedWithEmptyName() {
             var specialty = new Specialty();
-            specialty.setName("");
-            assertThat(specialty.getName()).isEmpty();
-            assertThat(specialty.toString()).isEmpty();
+            fixture.setName("");
+            assertThat(fixture.getName()).isEmpty();
+            assertThat(fixture.toString()).isEmpty();
         }
 
         @Test
-        @DisplayName("can handle numeric specialty names")
+        @DisplayName("can handle numeric fixture names")
         void canHandleNumericSpecialtyNames() {
             var specialty = new Specialty();
-            specialty.setName("Level 1");
-            assertThat(specialty.getName()).isEqualTo("Level 1");
+            fixture.setName("Level 1");
+            assertThat(fixture.getName()).isEqualTo("Level 1");
         }
 
         @Test
-        @DisplayName("can handle specialty names with hyphens")
+        @DisplayName("can handle fixture names with hyphens")
         void canHandleSpecialtyNamesWithHyphens() {
             var specialty = new Specialty();
-            specialty.setName("Internal-Medicine");
-            assertThat(specialty.getName()).isEqualTo("Internal-Medicine");
+            fixture.setName("Internal-Medicine");
+            assertThat(fixture.getName()).isEqualTo("Internal-Medicine");
         }
     }
 
@@ -451,8 +449,8 @@ class SpecialtyTest {
 
             for (String specialtyName : specialties) {
                 var specialty = new Specialty();
-                specialty.setName(specialtyName);
-                assertThat(specialty.getName()).isEqualTo(specialtyName);
+                fixture.setName(specialtyName);
+                assertThat(fixture.getName()).isEqualTo(specialtyName);
             }
         }
 
@@ -467,8 +465,8 @@ class SpecialtyTest {
 
             for (String specialtyName : exoticSpecialties) {
                 var specialty = new Specialty();
-                specialty.setName(specialtyName);
-                assertThat(specialty.getName()).isEqualTo(specialtyName);
+                fixture.setName(specialtyName);
+                assertThat(fixture.getName()).isEqualTo(specialtyName);
             }
         }
 

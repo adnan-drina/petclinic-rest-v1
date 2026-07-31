@@ -521,7 +521,7 @@ class PetTest {
         @DisplayName("inherits toString from NamedEntity")
         void inheritsToStringFromNamedEntity() {
             pet.setName("Fluffy");
-            assertThat(pet.toString()).isEqualTo("Fluffy");
+            assertThat(pet).hasToString("Fluffy");
         }
     }
 

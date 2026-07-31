@@ -12,11 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PetTypeTest {
 
-    private PetType petType;
+    private PetType fixture;
 
     @BeforeEach
     void setUp() {
-        petType = new PetType();
+        fixture = new PetType();
     }
 
     @Nested
@@ -26,43 +26,43 @@ class PetTypeTest {
         @Test
         @DisplayName("name is null by default")
         void nameIsNullByDefault() {
-            assertThat(petType.getName()).isNull();
+            assertThat(fixture.getName()).isNull();
         }
 
         @Test
         @DisplayName("setName sets the name")
         void setNameSetsName() {
-            petType.setName("Dog");
-            assertThat(petType.getName()).isEqualTo("Dog");
+            fixture.setName("Dog");
+            assertThat(fixture.getName()).isEqualTo("Dog");
         }
 
         @Test
         @DisplayName("setName overwrites previous name")
         void setNameOverwritesPreviousName() {
-            petType.setName("Cat");
-            petType.setName("Dog");
-            assertThat(petType.getName()).isEqualTo("Dog");
+            fixture.setName("Cat");
+            fixture.setName("Dog");
+            assertThat(fixture.getName()).isEqualTo("Dog");
         }
 
         @Test
         @DisplayName("setName to null resets name")
         void setNameToNull() {
-            petType.setName("Bird");
-            petType.setName(null);
-            assertThat(petType.getName()).isNull();
+            fixture.setName("Bird");
+            fixture.setName(null);
+            assertThat(fixture.getName()).isNull();
         }
 
         @Test
         @DisplayName("toString returns name when set")
         void toStringReturnsNameWhenSet() {
-            petType.setName("Hamster");
-            assertThat(petType.toString()).isEqualTo("Hamster");
+            fixture.setName("Hamster");
+            assertThat(fixture).hasToString("Hamster");
         }
 
         @Test
         @DisplayName("toString returns null when name is null")
         void toStringReturnsNullWhenNameIsNull() {
-            assertThat(petType.toString()).isNull();
+            assertThat(fixture.toString()).isNull();
         }
     }
 
@@ -73,29 +73,29 @@ class PetTypeTest {
         @Test
         @DisplayName("extends NamedEntity")
         void extendsNamedEntity() {
-            assertThat(petType).isInstanceOf(NamedEntity.class);
+            assertThat(fixture).isInstanceOf(NamedEntity.class);
         }
 
         @Test
         @DisplayName("extends BaseEntity through NamedEntity")
         void extendsBaseEntityThroughNamedEntity() {
-            assertThat(petType).isInstanceOf(BaseEntity.class);
+            assertThat(fixture).isInstanceOf(BaseEntity.class);
         }
 
         @Test
         @DisplayName("inherits id lifecycle methods from BaseEntity")
         void inheritsIdLifecycleMethodsFromBaseEntity() {
-            assertThat(petType.getId()).isNull();
-            petType.setId(42);
-            assertThat(petType.getId()).isEqualTo(42);
+            assertThat(fixture.getId()).isNull();
+            fixture.setId(42);
+            assertThat(fixture.getId()).isEqualTo(42);
         }
 
         @Test
         @DisplayName("inherits isNew lifecycle method from BaseEntity")
         void inheritsIsNewLifecycleMethodFromBaseEntity() {
-            assertThat(petType.isNew()).isTrue();
-            petType.setId(1);
-            assertThat(petType.isNew()).isFalse();
+            assertThat(fixture.isNew()).isTrue();
+            fixture.setId(1);
+            assertThat(fixture.isNew()).isFalse();
         }
 
         @Test
@@ -207,22 +207,22 @@ class PetTypeTest {
         @DisplayName("can handle numeric pet type names")
         void canHandleNumericPetTypeNames() {
             var petType = new PetType();
-            petType.setName("Species 12345");
-            assertThat(petType.getName()).isEqualTo("Species 12345");
+            fixture.setName("Species 12345");
+            assertThat(fixture.getName()).isEqualTo("Species 12345");
         }
 
         @Test
         @DisplayName("is new when id is null regardless of name")
         void isNewWhenIdIsNullRegardlessOfName() {
-            petType.setName("Dog");
-            assertThat(petType.isNew()).isTrue();
+            fixture.setName("Dog");
+            assertThat(fixture.isNew()).isTrue();
         }
 
         @Test
         @DisplayName("is not new when id is set even if name is null")
         void isNotNewWhenIdIsSetEvenIfNameIsNull() {
-            petType.setId(1);
-            assertThat(petType.isNew()).isFalse();
+            fixture.setId(1);
+            assertThat(fixture.isNew()).isFalse();
         }
     }
 
@@ -234,13 +234,13 @@ class PetTypeTest {
         @DisplayName("can be assigned to Pet type field")
         void canBeAssignedToPetTypeField() {
             var petType = new PetType();
-            petType.setName("Dog");
+            fixture.setName("Dog");
 
             var pet = new Pet();
             pet.setName("Buddy");
-            pet.setType(petType);
+            pet.setType(fixture);
 
-            assertThat(pet.getType()).isEqualTo(petType);
+            assertThat(pet.getType()).isEqualTo(fixture);
             assertThat(pet.getType().getName()).isEqualTo("Dog");
         }
 
@@ -299,19 +299,17 @@ class PetTypeTest {
         @DisplayName("complete inheritance chain works correctly")
         void completeInheritanceChainWorksCorrectly() {
             var petType = new PetType();
-            petType.setId(100);
-            petType.setName("Dog");
+            fixture.setId(100);
+            fixture.setName("Dog");
 
             // Test all levels of the inheritance chain
-            assertThat(petType).isInstanceOf(PetType.class);
-            assertThat(petType).isInstanceOf(NamedEntity.class);
-            assertThat(petType).isInstanceOf(BaseEntity.class);
+            assertThat(fixture).isInstanceOf(PetType.class).isInstanceOf(NamedEntity.class).isInstanceOf(BaseEntity.class);
 
             // Test all inherited methods work
-            assertThat(petType.getId()).isEqualTo(100);
-            assertThat(petType.getName()).isEqualTo("Dog");
-            assertThat(petType.isNew()).isFalse();
-            assertThat(petType.toString()).isEqualTo("Dog");
+            assertThat(fixture.getId()).isEqualTo(100);
+            assertThat(fixture.getName()).isEqualTo("Dog");
+            assertThat(fixture.isNew()).isFalse();
+            assertThat(fixture).hasToString("Dog");
         }
 
         @Test
@@ -319,11 +317,11 @@ class PetTypeTest {
         void canBeUsedInJpaRelationships() throws Exception {
             // PetType is used in ManyToOne relationship in Pet entity
             var petType = new PetType();
-            petType.setName("Cat");
+            fixture.setName("Cat");
 
             var pet = new Pet();
             pet.setName("Fluffy");
-            pet.setType(petType);
+            pet.setType(fixture);
 
             // Verify the relationship is properly established
             var typeField = Pet.class.getDeclaredField("type");
@@ -344,8 +342,8 @@ class PetTypeTest {
         @DisplayName("can handle very long names")
         void canHandleVeryLongNames() {
             var longName = "This is a very long pet type name that might be used for scientific classification or specific breed identification";
-            petType.setName(longName);
-            assertThat(petType.getName()).isEqualTo(longName);
+            fixture.setName(longName);
+            assertThat(fixture.getName()).isEqualTo(longName);
         }
 
         @Test
@@ -364,8 +362,8 @@ class PetTypeTest {
         @DisplayName("can handle Unicode characters")
         void canHandleUnicodeCharacters() {
             var petType = new PetType();
-            petType.setName("宠物 (Pet)");
-            assertThat(petType.getName()).isEqualTo("宠物 (Pet)");
+            fixture.setName("宠物 (Pet)");
+            assertThat(fixture.getName()).isEqualTo("宠物 (Pet)");
         }
 
         @Test
@@ -385,17 +383,17 @@ class PetTypeTest {
         @DisplayName("can be created with null name")
         void canBeCreatedWithNullName() {
             var petType = new PetType();
-            assertThat(petType.getName()).isNull();
-            assertThat(petType.toString()).isNull();
+            assertThat(fixture.getName()).isNull();
+            assertThat(fixture.toString()).isNull();
         }
 
         @Test
         @DisplayName("can be created with empty name")
         void canBeCreatedWithEmptyName() {
             var petType = new PetType();
-            petType.setName("");
-            assertThat(petType.getName()).isEmpty();
-            assertThat(petType.toString()).isEmpty();
+            fixture.setName("");
+            assertThat(fixture.getName()).isEmpty();
+            assertThat(fixture.toString()).isEmpty();
         }
     }
 }

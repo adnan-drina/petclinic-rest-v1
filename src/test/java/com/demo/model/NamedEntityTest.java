@@ -72,7 +72,7 @@ class NamedEntityTest {
         @DisplayName("returns name when name is set")
         void returnsNameWhenSet() {
             entity.setName("Specialty Name");
-            assertThat(entity.toString()).isEqualTo("Specialty Name");
+            assertThat(entity).hasToString("Specialty Name");
         }
 
         @Test

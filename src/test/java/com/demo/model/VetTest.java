@@ -188,7 +188,7 @@ class VetTest {
         @Test
         @DisplayName("returns zero when no specialties")
         void returnsZeroWhenNoSpecialties() {
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(0);
+            assertThat(vet.getNrOfSpecialties()).isZero();
         }
 
         @Test
@@ -224,7 +224,7 @@ class VetTest {
             assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
             
             vet.clearSpecialties();
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(0);
+            assertThat(vet.getNrOfSpecialties()).isZero();
         }
 
         @Test
@@ -482,7 +482,7 @@ class VetTest {
             generalVet.setLastName("Johnson");
             
             assertThat(generalVet.getSpecialties()).isEmpty();
-            assertThat(generalVet.getNrOfSpecialties()).isEqualTo(0);
+            assertThat(generalVet.getNrOfSpecialties()).isZero();
         }
 
         @Test
@@ -558,7 +558,7 @@ class VetTest {
             
             vet.clearSpecialties();
             assertThat(vet.getSpecialties()).isEmpty();
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(0);
+            assertThat(vet.getNrOfSpecialties()).isZero();
             
             vet.addSpecialty(radiology);
             assertThat(vet.getSpecialties()).hasSize(1);

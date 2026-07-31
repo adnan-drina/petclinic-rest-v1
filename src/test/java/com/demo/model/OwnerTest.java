@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -171,7 +170,7 @@ class OwnerTest {
             var telephoneField = Owner.class.getDeclaredField("telephone");
             var digitsAnnotation = telephoneField.getAnnotation(Digits.class);
             assertThat(digitsAnnotation).isNotNull();
-            assertThat(digitsAnnotation.fraction()).isEqualTo(0);
+            assertThat(digitsAnnotation.fraction()).isZero();
             assertThat(digitsAnnotation.integer()).isEqualTo(10);
         }
 
@@ -553,9 +552,7 @@ class OwnerTest {
             
             var toString = owner.toString();
             
-            assertThat(toString).contains("id=1");
-            assertThat(toString).contains("isNew=false");
-            assertThat(toString).contains("lastName='Doe'");
+            assertThat(toString).contains("id=1").contains("isNew=false").contains("lastName='Doe'");
             assertThat(toString).contains("firstName='John'");
             assertThat(toString).contains("address='123 Main St'");
             assertThat(toString).contains("city='Springfield'");
@@ -569,8 +566,7 @@ class OwnerTest {
             
             var toString = owner.toString();
             
-            assertThat(toString).contains("firstName='Jane'");
-            assertThat(toString).contains("lastName='null'");
+            assertThat(toString).contains("firstName='Jane'").contains("lastName='null'");
         }
     }
 
