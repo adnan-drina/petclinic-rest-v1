@@ -8,12 +8,14 @@ import com.demo.mapper.*;
 import com.demo.model.*;
 import com.demo.service.*;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.*;
+import java.net.URI;
 
 class UserRestControllerTest {
 
@@ -22,6 +24,9 @@ class UserRestControllerTest {
 
     @Mock
     private UserMapper userMapper;
+
+    @Mock
+    private UriInfo uriInfo;
 
     private UserRestController controller;
 

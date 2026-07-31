@@ -11,6 +11,7 @@ import com.demo.model.Specialty;
 import com.demo.model.Vet;
 import com.demo.service.ClinicService;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -29,6 +30,9 @@ class VetRestControllerTest {
 
     @Mock
     private SpecialtyMapper specialtyMapper;
+
+    @Mock
+    private UriInfo uriInfo;
 
     private VetRestController controller;
 
