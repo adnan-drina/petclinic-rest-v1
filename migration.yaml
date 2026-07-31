@@ -1,45 +1,30 @@
-# Migration provenance record — stamped by the app-migration template.
-# The legacy application is intentionally NOT registered in the catalog;
-# this file is the durable record of where the migration started.
-#
-# Wave 2 specimen stamp (2026-07-31): petclinic REST freeze-fork contract
-# (Poll 81 / O-ACCEPTARRAY / O-SPECIMEN-CRIT). Replaces Coolstore cart defaults.
 migration:
   legacyRepoUrl: https://github.com/adnan-drina/spring-petclinic-rest-legacy.git
   target: quarkus
   provisionedBy: app-migration golden-path template
-  # Package identity (single source of the rename).
   legacyPackage: org.springframework.samples.petclinic
-  # Matches harness cart-era targetPackage convention (skeleton already com.demo).
   targetPackage: com.demo
 acceptance:
-  # Harness supervisor asserts this after deploy (M5 ship success).
   path: /petclinic/api/vets
   collection: _array
   getter: getAllVets
   service: ClinicService
   itemType: VetDto
-  idFields: [id]
   needsDatabase: true
-  # R-83 P2 / O-DEVDBURL: omit dbService/dbName → ${PROJECT_KEY}-postgres /
-  # ${PROJECT_KEY}. Skeleton k8s postgres Secret DATABASE + JDBC path use
-  # values.name (same identity).
+  idFields: [id]
 analysis:
-  # Poll 81 E2 / PROBE: source-only ≡ full on freeze-fork (29 rules / 151 incidents).
   mode: source-only
-  # MTA rule selection is LABEL FILTERING (targets pick only matching
-  # rules; everything else is silently excluded).
   targets: [quarkus, jakarta-ee9, cloud-readiness, openjdk17]
 targetContract:
-  # Conservative subset for petclinic (external REST consumers). Cart-era
-  # behavior-changing flags (getIdempotent/validateInput/mapErrors) left false
-  # until meetup mappings justify them; threadSafeState kept as a safe gate.
-  getIdempotent: false
-  validateInput: false
-  mapErrors: false
-  threadSafeState: true
-  cacheRefreshGuard: false
+  validateInput: true
+  mapErrors: true
+  getIdempotent: true
+  threadSafeState: false
+  cacheRefreshGuard: true
   normalizeBeforeDerive: false
 preserve:
   - petclinic.security.enable
+  - server.servlet.context-path
 forbidden: []
+contract:
+  status: decided

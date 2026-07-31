@@ -184,14 +184,32 @@ def _strip_generics(s: str) -> str:
     return s.split(".")[-1].strip()
 
 
+def _unwrap_return_type(ret: str) -> str:
+    """Strip ResponseEntity<...> wrapper (common in Spring REST controllers)."""
+    ret = ret.strip()
+    m = re.match(r"ResponseEntity\s*<\s*(.+)\s*>\s*$", ret)
+    return m.group(1).strip() if m else ret
+
+
 def _parse_collection_from_return(ret: str) -> tuple[str, str]:
     """Returns (collection_key, item_type)."""
-    ret = ret.strip()
+    ret = _unwrap_return_type(ret.strip())
     m = re.match(r"(?:java\.util\.)?(?:List|Collection|Set)<\s*([\w.]+)\s*>", ret)
     if m:
         return BARE_ARRAY, _strip_generics(m.group(1))
     simple = _strip_generics(ret)
     return simple, simple
+
+
+def _mapping_path_from_args(ann_args: str) -> str:
+    """Extract path from @GetMapping/@RequestMapping argument list."""
+    m = re.search(r"(?:value|path)\s*=\s*[\"']([^\"']*)[\"']", ann_args)
+    if m:
+        return m.group(1)
+    m = re.search(r"^[\"']([^\"']*)[\"']", ann_args.strip())
+    if m:
+        return m.group(1)
+    return ""
 
 
 def _find_dto_collection(root: Path, dto_type: str) -> tuple[str, str] | None:
@@ -245,35 +263,51 @@ def _scan_endpoints(root: Path, ctx: str) -> list[EndpointCandidate]:
         text = _read_text(jf)
         if not re.search(r"@RestController|@Controller", text):
             continue
+        # Class-level path only (must precede `public class`).
         cm = re.search(
-            r"@(?:RequestMapping|RestController)\s*\(\s*(?:value\s*=\s*)?[\"']([^\"']+)[\"']",
+            r"@RequestMapping\s*\(([^)]*)\)\s*public\s+class\b",
             text,
         )
-        class_path = cm.group(1) if cm else ""
-        if re.search(r"@RestController\b", text) and not class_path:
-            class_path = ""
+        class_path = _mapping_path_from_args(cm.group(1)) if cm else ""
 
         svc = _extract_service_type(text)
+        # Method-level only: annotation indented (avoids class @RequestMapping
+        # consuming the next public method via finditer non-overlap).
         for m in re.finditer(
-            r"@GetMapping\s*\(\s*(?:value\s*=\s*)?[\"']([^\"']*)[\"']\s*\)"
-            r"[\s\S]{0,400}?public\s+([\w<>,\s\.]+)\s+(\w+)\s*\(",
+            r"(?m)^[ \t]+@(GetMapping|RequestMapping)\s*\(([^)]*)\)"
+            r"[\s\S]{0,400}?public\s+(?!class\b)([\w<>,\s\.]+)\s+(\w+)\s*\(",
             text,
         ):
-            subpath, ret, method_name = m.group(1), m.group(2).strip(), m.group(3)
+            kind, ann_args, ret, method_name = (
+                m.group(1),
+                m.group(2),
+                m.group(3).strip(),
+                m.group(4),
+            )
+            if kind == "RequestMapping" and "RequestMethod.GET" not in ann_args:
+                continue
+            subpath = _mapping_path_from_args(ann_args)
             if "{" in subpath or "{" in class_path:
                 continue
             full = _combine_paths(ctx, _combine_paths(class_path, subpath))
             collection, item_type = _parse_collection_from_return(ret)
             if collection != BARE_ARRAY:
-                wrap = _find_dto_collection(root, ret)
+                wrap = _find_dto_collection(root, _unwrap_return_type(ret))
                 if wrap:
                     collection, item_type = wrap
+                elif collection == item_type:
+                    # scalar/DTO GET (e.g. getVet by id) — not acceptance surface
+                    continue
             score = 100
             if collection == BARE_ARRAY:
                 score += 50
             score -= len(full)
             if "acceptance" in full:
                 score += 30
+            # Prefer enumeration-style getters (getAll*/findAll*) over shorter
+            # resource names when path length ties (petclinic pets vs vets).
+            if re.match(r"^(?:get|find)All[A-Z]", method_name):
+                score += 25
             candidates.append(
                 EndpointCandidate(
                     path=full,
@@ -374,7 +408,7 @@ def _thread_safe_state_needed(root: Path) -> bool:
         return False
 
 
-def derive_stamp(root: Path) -> StampResult:
+def derive_stamp(root: Path, prefer_path: str | None = None) -> StampResult:
     res = StampResult()
     res.target_package = TARGET_PACKAGE
     res.forbidden = []
@@ -393,7 +427,17 @@ def derive_stamp(root: Path) -> StampResult:
         return res
 
     top = candidates[0]
-    if len(candidates) > 1:
+    if prefer_path and prefer_path != UNDECIDED:
+        for c in candidates:
+            if c.path == prefer_path:
+                top = c
+                res.warnings.append(
+                    f"kept existing acceptance.path among candidates: {prefer_path}"
+                )
+                break
+    if len(candidates) > 1 and not (
+        prefer_path and top.path == prefer_path
+    ):
         res.warnings.append(
             f"multiple acceptance candidates ({len(candidates)}); stamped top: {top.path}"
         )
@@ -553,6 +597,15 @@ def _normalize_compare_doc(doc: dict) -> dict:
 def apply_stamp(yaml_path: Path, stamp: StampResult, write: bool) -> bool:
     """Return True if migration.yaml would change / did change."""
     existing = _load_yaml(yaml_path)
+    # Never clobber a decided human/harness stamp with UNDECIDED (dogfood safety).
+    if stamp.contract_status == UNDECIDED:
+        prev_path = str((existing.get("acceptance") or {}).get("path") or "")
+        if prev_path and prev_path != UNDECIDED:
+            print(
+                "WARN: derive UNDECIDED — refusing to overwrite decided stamp",
+                file=sys.stderr,
+            )
+            return False
     new_doc = _stamp_to_doc(existing, stamp)
     if _normalize_compare_doc(existing) == _normalize_compare_doc(new_doc):
         return False
@@ -560,40 +613,70 @@ def apply_stamp(yaml_path: Path, stamp: StampResult, write: bool) -> bool:
         return True
     if yaml is not None:
         text = yaml.dump(new_doc, default_flow_style=False, sort_keys=False, allow_unicode=True)
-        yaml_path.write_text(text, encoding="utf-8")
     else:
-        # Minimal writer when PyYAML missing
-        lines = [
-            "migration:",
-            f"  legacyPackage: {stamp.legacy_package}",
-            f"  targetPackage: {stamp.target_package}",
-            "acceptance:",
-        ]
-        for k, v in stamp.acceptance.items():
-            if isinstance(v, bool):
-                lines.append(f"  {k}: {'true' if v else 'false'}")
-            elif isinstance(v, list):
-                inner = ", ".join(v)
-                lines.append(f"  {k}: [{inner}]")
-            else:
-                lines.append(f"  {k}: {v}")
-        lines.append("analysis:")
-        lines.append(f"  mode: {ANALYSIS_MODE}")
-        lines.append(f"  targets: {ANALYSIS_TARGETS}")
-        if stamp.target_contract:
-            lines.append("targetContract:")
-            for k, v in stamp.target_contract.items():
-                lines.append(f"  {k}: {'true' if v else 'false'}")
-        else:
-            lines.append("targetContract: {}")
-        lines.append("preserve:")
-        for p in stamp.preserve:
-            lines.append(f"  - {p}")
-        lines.append("forbidden: []")
-        lines.append("contract:")
-        lines.append(f"  status: {stamp.contract_status}")
-        yaml_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        # Preserve full merged doc (legacyRepoUrl, provisionedBy, …) without PyYAML.
+        text = _dump_yaml_minimal(new_doc)
+    yaml_path.write_text(text, encoding="utf-8")
     return True
+
+
+def _dump_yaml_minimal(doc: dict[str, Any]) -> str:
+    """Serialize migration.yaml-shaped dicts without PyYAML."""
+
+    def fmt_scalar(v: Any) -> str:
+        if isinstance(v, bool):
+            return "true" if v else "false"
+        if isinstance(v, list):
+            return "[" + ", ".join(str(x) for x in v) + "]"
+        return str(v)
+
+    lines: list[str] = []
+    # Stable section order, then any extras.
+    order = [
+        "migration",
+        "acceptance",
+        "analysis",
+        "targetContract",
+        "preserve",
+        "forbidden",
+        "contract",
+    ]
+    keys = [k for k in order if k in doc] + [k for k in doc.keys() if k not in order]
+    for key in keys:
+        val = doc[key]
+        if isinstance(val, dict):
+            lines.append(f"{key}:")
+            for k, v in val.items():
+                if isinstance(v, list) and v and not isinstance(v[0], (dict, list)):
+                    if key == "contract" and k == "acceptanceAlternatives":
+                        lines.append(f"  {k}:")
+                        for item in v:
+                            if isinstance(item, dict):
+                                lines.append(f"    - path: {item.get('path', '')}")
+                                for ik, iv in item.items():
+                                    if ik != "path":
+                                        lines.append(f"      {ik}: {iv}")
+                            else:
+                                lines.append(f"    - {item}")
+                    else:
+                        lines.append(f"  {k}: {fmt_scalar(v)}")
+                elif isinstance(v, dict):
+                    lines.append(f"  {k}:")
+                    for ik, iv in v.items():
+                        lines.append(f"    {ik}: {fmt_scalar(iv)}")
+                else:
+                    lines.append(f"  {k}: {fmt_scalar(v)}")
+        elif isinstance(val, list):
+            lines.append(f"{key}:")
+            if not val:
+                # empty list as []
+                lines[-1] = f"{key}: []"
+            else:
+                for item in val:
+                    lines.append(f"  - {item}")
+        else:
+            lines.append(f"{key}: {fmt_scalar(val)}")
+    return "\n".join(lines) + "\n"
 
 
 def run_gate(root: Path, yaml_path: Path) -> int:
@@ -663,7 +746,11 @@ def cmd_stamp(args: argparse.Namespace) -> int:
     if not root.is_dir():
         print(f"contract-stamp: legacy root missing: {root}", file=sys.stderr)
         return 1
-    stamp = derive_stamp(root)
+    existing = _load_yaml(yaml_path) if yaml_path.is_file() else {}
+    prefer = str((existing.get("acceptance") or {}).get("path") or "") or None
+    if prefer == UNDECIDED:
+        prefer = None
+    stamp = derive_stamp(root, prefer_path=prefer)
     for w in stamp.warnings:
         print(f"WARN: {w}", file=sys.stderr)
     changed = apply_stamp(yaml_path, stamp, write=args.write)
