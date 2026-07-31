@@ -1,0 +1,25 @@
+epoch,stage,attempt,class,action
+1785492202,T-001,1,success,commit
+1785492760,T-002,0,rule:javax-to-jakarta-import-00001,worker_green
+1785493908,T-003,0,escalation_cause,guard-refused
+1785494161,T-003,1,success,commit
+1785494171,T-003,0,rule:javax-to-jakarta-import-00001,escalation
+1785494487,T-004,0,sensor_red_post_commit,verify
+1785494578,T-004,0,style_autofix,partial
+1785495223,T-004,0,rule:springboot-annotations-to-quarkus-00002,worker_green
+1785495419,T-005,0,escalation_cause,guard-refused
+1785495558,T-005,1,success,commit
+1785495564,T-005,0,sfixscope_reset,task_red
+1785495581,T-005,2,no_commit,retrying
+1785495581,T-005,0,rule:springboot-annotations-to-quarkus-00002,exhausted
+1785495638,T-006,0,already_complete,absent:EntityUtils
+1785496043,T-007,0,sensor_red_post_commit,verify
+1785497647,T-008,0,sensor_red_post_commit,verify
+1785497809,T-008,0,style_autofix,partial
+1785498731,T-009,0,already_complete,absent:EntityUtilsMigrationTest
+1785499688,m5-evaluate,1,success,commit
+1785499752,m5-ship,0,preflight_red,round=1
+1785500655,preflightfix-r1,1,timeout,retrying
+1785500919,preflightfix-r1,2,success,commit
+1785501355,m5-ship,0,pipeline_succeeded,petclinic-rest-v1-push-99rvq
+1785501355,m5-ship,0,story_gate_pass,non-deploy story
