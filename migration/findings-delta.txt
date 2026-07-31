@@ -1,35 +1,36 @@
 # Findings delta (O-DELTABASE — absence ≠ resolved)
 
-METRIC src_main_java=6 src_test_java=3
-METRIC residual_incidents src/main=3 src/test=0 pom=6 props=0 other=0
-SUMMARY resolved=12 absent_not_landed=11 scaffold_presatisfied=9 remaining=5 new_after=2 honest_resolve_pct=42.9
+METRIC src_main_java=66 src_test_java=18
+METRIC residual_incidents src/main=11 src/test=0 pom=4 props=0 other=0
+SUMMARY resolved=17 absent_not_landed=7 scaffold_presatisfied=9 remaining=4 new_after=4 honest_resolve_pct=60.7
 
 ## RESOLVED (landed evidence + rule absent after)
 - hibernate-00005
 - javax-to-jakarta-dependencies-00001
 - javax-to-jakarta-dependencies-00003
 - javax-to-jakarta-import-00001
+- persistence-to-quarkus-00010
+- removed-javaee-modules-00020
 - spring-components-00001
 - spring-components-00002
 - springboot-actuator-to-quarkus-0100
 - springboot-cache-to-quarkus-00000
 - springboot-devservices-to-quarkus-00000
+- springboot-di-to-quarkus-00003
 - springboot-jpa-to-quarkus-00000
+- springboot-metrics-to-quarkus-0100
+- springboot-metrics-to-quarkus-0200
 - springboot-properties-to-quarkus-00003
 - springboot-security-to-quarkus-00000
 
 ## ABSENT-NOT-LANDED (do NOT credit as resolved — nothing in src/)
 - localhost-jdbc-00002
-- persistence-to-quarkus-00010
-- removed-javaee-modules-00020
 - springboot-annotations-to-quarkus-00002
 - springboot-di-to-quarkus-00002
-- springboot-di-to-quarkus-00003
 - springboot-jmx-to-quarkus-00001
 - springboot-properties-to-quarkus-00001
 - springboot-properties-to-quarkus-00002
 - springboot-webmvc-to-quarkus-00000
-- transaction-to-quarkus-00003
 
 ## SCAFFOLD-PRESATISFIED (destination already satisfied — no story credit)
 - javaee-pom-to-quarkus-00010
@@ -46,11 +47,12 @@ SUMMARY resolved=12 absent_not_landed=11 scaffold_presatisfied=9 remaining=5 new
 - javaee-pom-to-quarkus-00030
 - javaee-pom-to-quarkus-00050
 - javaee-pom-to-quarkus-00060
-- springboot-metrics-to-quarkus-0100
-- springboot-metrics-to-quarkus-0200
+- transaction-to-quarkus-00003
 
 ## NEW IN AFTER (not in before)
 - demo-env-integration-00001
+- hibernate6-00270
 - jakarta-jaxrs-to-quarkus-00010
+- transaction-to-quarkus-00002
 
-DELTABASE:resolved=12:absent=11:presat=9:remaining=5
+DELTABASE:resolved=17:absent=7:presat=9:remaining=4
