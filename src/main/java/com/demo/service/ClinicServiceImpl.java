@@ -33,7 +33,6 @@ import com.demo.repository.PetTypeRepository;
 import com.demo.repository.SpecialtyRepository;
 import com.demo.repository.VetRepository;
 import com.demo.repository.VisitRepository;
-import com.demo.service.ClinicService;
 
 /**
  * Mostly used as a facade for all Petclinic controllers
