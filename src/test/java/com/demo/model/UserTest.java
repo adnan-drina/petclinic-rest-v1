@@ -276,11 +276,11 @@ class UserTest {
         }
 
         @Test
-        @DisplayName("has @OneToMany relationship with mappedBy fixture")
+        @DisplayName("has @OneToMany relationship with mappedBy user")
         void hasOneToManyRelationshipWithMappedByUser() throws Exception {
             var rolesField = User.class.getDeclaredField("roles");
             var oneToManyAnnotation = rolesField.getAnnotation(OneToMany.class);
-            assertThat(oneToManyAnnotation.mappedBy()).isEqualTo("fixture");
+            assertThat(oneToManyAnnotation.mappedBy()).isEqualTo("user");
         }
     }
 
