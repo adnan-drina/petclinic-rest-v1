@@ -48,7 +48,7 @@ public class OwnerDto   {
   */
     @NotNull
 
-@Pattern(regexp="^[a-zA-Z]*$") @Size(min=1,max=30) 
+@Pattern(regexp="^[a-zA-Z]++$") @Size(min=1,max=30) 
   public String getFirstName() {
     return firstName;
   }
@@ -68,7 +68,7 @@ public class OwnerDto   {
   */
     @NotNull
 
-@Pattern(regexp="^[a-zA-Z]*$") @Size(min=1,max=30) 
+@Pattern(regexp="^[a-zA-Z]++$") @Size(min=1,max=30) 
   public String getLastName() {
     return lastName;
   }
@@ -128,7 +128,7 @@ public class OwnerDto   {
   */
     @NotNull
 
-@Pattern(regexp="^[0-9]*$") @Size(min=1,max=20) 
+  @Size(min=1,max=20)
   public String getTelephone() {
     return telephone;
   }
