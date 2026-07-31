@@ -1,6 +1,6 @@
 schemaVersion: 2.2.0
 metadata:
-  name: petclinic-rest-v1
+  name: quarkus-migration-scaffold
 attributes:
   # Per-workspace PVC: the shared per-user claim is RWO and multi-attaches
   # when a second workspace starts while another is running (observed
@@ -14,15 +14,19 @@ attributes:
 #                         catalog-registered and CI/CD-wired
 # `legacy` is FIRST on purpose: the MTA VS Code extension analyzes the
 # first workspace folder in multi-root mode.
+# In per-run repositories both URLs below are stamped by the app-migration
+# template (this golden copy carries demo defaults).
 projects:
   - name: legacy
     git:
       remotes:
-        origin: https://github.com/adnan-drina/spring-petclinic-rest-legacy
+        origin: https://github.com/rhpds/mca-coolstore.git
+      checkoutFrom:
+        revision: main
   - name: modernized
     git:
       remotes:
-        origin: https://github.com/adnan-drina/petclinic-rest-v1.git
+        origin: https://github.com/adnan-drina/quarkus-migration-scaffold.git
       checkoutFrom:
         revision: main
 components:
