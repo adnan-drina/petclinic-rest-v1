@@ -2973,7 +2973,8 @@ run_case() {
 assert m['legacyPackage']=='org.springframework.samples.petclinic'; \
 assert a['path']=='/petclinic/api/vets'; assert a['collection']=='_array'; \
 assert a['getter']=='getAllVets'; assert a['service']=='ClinicService'; \
-assert a['itemType']=='VetDto'; print('stamp-petclinic-ok')"
+assert a['itemType']=='VetDto'; \
+assert 'endpointEnv' not in a; print('stamp-petclinic-ok')"
 }
 check "contract-stamp petclinic fixture matches F-2 acceptance (O-STAMP-AUTO)" 0 "stamp-petclinic-ok"
 
