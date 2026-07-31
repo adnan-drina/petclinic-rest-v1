@@ -17,9 +17,9 @@ class ValidationMessageDtoTest {
 
     @Test
     void equalsAndHashCode() {
-        var a = new ValidationMessageDto().message("x");
-        var b = new ValidationMessageDto().message("x");
-        var c = new ValidationMessageDto().message("y");
+        ValidationMessageDto a = new ValidationMessageDto().message("x");
+        ValidationMessageDto b = new ValidationMessageDto().message("x");
+        ValidationMessageDto c = new ValidationMessageDto().message("y");
         assertThat(a).isEqualTo(b).isNotEqualTo(c);
         assertThat(a.hashCode()).isEqualTo(b.hashCode());
     }

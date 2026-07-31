@@ -43,9 +43,9 @@ class RestErrorDtoTest {
         restErrorDto.setError("Internal Server Error");
         assertEquals("Internal Server Error", restErrorDto.getError());
         
-        URI path = URI.create("/api/vets");
-        restErrorDto.setPath(path);
-        assertEquals(path, restErrorDto.getPath());
+        String path = "/api/vets";
+        restErrorDto.setPath(java.net.URI.create(path));
+        assertEquals(path, restErrorDto.getPath().toString());
         
         OffsetDateTime timestamp = OffsetDateTime.now();
         restErrorDto.setTimestamp(timestamp);

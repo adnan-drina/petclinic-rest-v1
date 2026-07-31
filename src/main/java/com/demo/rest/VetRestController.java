@@ -35,6 +35,7 @@ import java.util.Collection;
 
 /**
  * @author Vitaliy Fedoriv
+ * acceptance.path: /petclinic/api/vets
  */
 
 @ApplicationScoped
