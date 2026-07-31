@@ -552,11 +552,7 @@ class OwnerTest {
             
             var toString = owner.toString();
             
-            assertThat(toString).contains("id=1").contains("isNew=false").contains("lastName='Doe'");
-            assertThat(toString).contains("firstName='John'");
-            assertThat(toString).contains("address='123 Main St'");
-            assertThat(toString).contains("city='Springfield'");
-            assertThat(toString).contains("telephone='555-1234'");
+            assertThat(toString).contains("id=1").contains("isNew=false").contains("lastName='Doe'").contains("firstName='John'").contains("address='123 Main St'").contains("city='Springfield'").contains("telephone='555-1234'");
         }
 
         @Test

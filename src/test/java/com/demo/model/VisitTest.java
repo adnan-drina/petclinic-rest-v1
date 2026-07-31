@@ -14,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class VisitTest {
 
-    private Visit visit;
+    private Visit fixture;
 
     @BeforeEach
     void setUp() {
-        visit = new Visit();
+        fixture = new Visit();
     }
 
     @Nested
@@ -37,13 +37,13 @@ class VisitTest {
         @DisplayName("default constructor (no-arg) sets date to current date")
         void defaultConstructorSetsDateToCurrentDate() {
             var today = LocalDate.now();
-            assertThat(visit.getDate()).isEqualTo(today);
+            assertThat(fixture.getDate()).isEqualTo(today);
         }
 
         @Test
         @DisplayName("date is initialized automatically")
         void dateIsInitializedAutomatically() {
-            assertThat(visit.getDate()).isNotNull().isInstanceOf(LocalDate.class);
+            assertThat(fixture.getDate()).isNotNull().isInstanceOf(LocalDate.class);
         }
     }
 
@@ -54,15 +54,15 @@ class VisitTest {
         @Test
         @DisplayName("date is initialized by constructor")
         void dateIsInitializedByConstructor() {
-            assertThat(visit.getDate()).isNotNull();
+            assertThat(fixture.getDate()).isNotNull();
         }
 
         @Test
         @DisplayName("setDate sets the date")
         void setDateSetsDate() {
             var date = LocalDate.of(2023, 6, 15);
-            visit.setDate(date);
-            assertThat(visit.getDate()).isEqualTo(date);
+            fixture.setDate(date);
+            assertThat(fixture.getDate()).isEqualTo(date);
         }
 
         @Test
@@ -71,43 +71,43 @@ class VisitTest {
             var date1 = LocalDate.of(2023, 1, 1);
             var date2 = LocalDate.of(2023, 12, 31);
             
-            visit.setDate(date1);
-            visit.setDate(date2);
+            fixture.setDate(date1);
+            fixture.setDate(date2);
             
-            assertThat(visit.getDate()).isEqualTo(date2);
+            assertThat(fixture.getDate()).isEqualTo(date2);
         }
 
         @Test
         @DisplayName("setDate to null resets date")
         void setDateToNull() {
-            visit.setDate(LocalDate.of(2023, 6, 15));
-            visit.setDate(null);
+            fixture.setDate(LocalDate.of(2023, 6, 15));
+            fixture.setDate(null);
             
-            assertThat(visit.getDate()).isNull();
+            assertThat(fixture.getDate()).isNull();
         }
 
         @Test
         @DisplayName("can set date to past date")
         void canSetDateToPastDate() {
             var pastDate = LocalDate.of(2020, 3, 10);
-            visit.setDate(pastDate);
-            assertThat(visit.getDate()).isEqualTo(pastDate);
+            fixture.setDate(pastDate);
+            assertThat(fixture.getDate()).isEqualTo(pastDate);
         }
 
         @Test
         @DisplayName("can set date to future date")
         void canSetDateToFutureDate() {
             var futureDate = LocalDate.of(2025, 12, 25);
-            visit.setDate(futureDate);
-            assertThat(visit.getDate()).isEqualTo(futureDate);
+            fixture.setDate(futureDate);
+            assertThat(fixture.getDate()).isEqualTo(futureDate);
         }
 
         @Test
         @DisplayName("can set date to today")
         void canSetDateToToday() {
             var today = LocalDate.now();
-            visit.setDate(today);
-            assertThat(visit.getDate()).isEqualTo(today);
+            fixture.setDate(today);
+            assertThat(fixture.getDate()).isEqualTo(today);
         }
 
         @Test
@@ -128,45 +128,45 @@ class VisitTest {
         @Test
         @DisplayName("description is null by default")
         void descriptionIsNullByDefault() {
-            assertThat(visit.getDescription()).isNull();
+            assertThat(fixture.getDescription()).isNull();
         }
 
         @Test
         @DisplayName("setDescription sets the description")
         void setDescriptionSetsDescription() {
-            visit.setDescription("Regular checkup");
-            assertThat(visit.getDescription()).isEqualTo("Regular checkup");
+            fixture.setDescription("Regular checkup");
+            assertThat(fixture.getDescription()).isEqualTo("Regular checkup");
         }
 
         @Test
         @DisplayName("setDescription overwrites previous description")
         void setDescriptionOverwritesPreviousDescription() {
-            visit.setDescription("First visit");
-            visit.setDescription("Second visit");
-            assertThat(visit.getDescription()).isEqualTo("Second visit");
+            fixture.setDescription("First fixture");
+            fixture.setDescription("Second fixture");
+            assertThat(fixture.getDescription()).isEqualTo("Second fixture");
         }
 
         @Test
         @DisplayName("setDescription to null resets description")
         void setDescriptionToNull() {
-            visit.setDescription("Checkup");
-            visit.setDescription(null);
-            assertThat(visit.getDescription()).isNull();
+            fixture.setDescription("Checkup");
+            fixture.setDescription(null);
+            assertThat(fixture.getDescription()).isNull();
         }
 
         @Test
         @DisplayName("can set empty description")
         void canSetEmptyDescription() {
-            visit.setDescription("");
-            assertThat(visit.getDescription()).isEmpty();
+            fixture.setDescription("");
+            assertThat(fixture.getDescription()).isEmpty();
         }
 
         @Test
         @DisplayName("can set long description")
         void canSetLongDescription() {
             var longDescription = "This is a very long description that might span multiple lines and contain lots of details about the pet's health status and treatment plan";
-            visit.setDescription(longDescription);
-            assertThat(visit.getDescription()).isEqualTo(longDescription);
+            fixture.setDescription(longDescription);
+            assertThat(fixture.getDescription()).isEqualTo(longDescription);
         }
 
         @Test
@@ -193,7 +193,7 @@ class VisitTest {
         @Test
         @DisplayName("pet is null by default")
         void petIsNullByDefault() {
-            assertThat(visit.getPet()).isNull();
+            assertThat(fixture.getPet()).isNull();
         }
 
         @Test
@@ -202,9 +202,9 @@ class VisitTest {
             var pet = new Pet();
             pet.setName("Fluffy");
             
-            visit.setPet(pet);
+            fixture.setPet(pet);
             
-            assertThat(visit.getPet()).isEqualTo(pet);
+            assertThat(fixture.getPet()).isEqualTo(pet);
         }
 
         @Test
@@ -215,10 +215,10 @@ class VisitTest {
             var pet2 = new Pet();
             pet2.setName("Spot");
             
-            visit.setPet(pet1);
-            visit.setPet(pet2);
+            fixture.setPet(pet1);
+            fixture.setPet(pet2);
             
-            assertThat(visit.getPet()).isEqualTo(pet2);
+            assertThat(fixture.getPet()).isEqualTo(pet2);
         }
 
         @Test
@@ -227,10 +227,10 @@ class VisitTest {
             var pet = new Pet();
             pet.setName("Rex");
             
-            visit.setPet(pet);
-            visit.setPet(null);
+            fixture.setPet(pet);
+            fixture.setPet(null);
             
-            assertThat(visit.getPet()).isNull();
+            assertThat(fixture.getPet()).isNull();
         }
 
         @Test
@@ -256,7 +256,7 @@ class VisitTest {
     class BidirectionalRelationshipWithPet {
 
         @Test
-        @DisplayName("adding visit to pet sets pet on visit")
+        @DisplayName("adding fixture to pet sets pet on fixture")
         void addingVisitToPetSetsPetOnVisit() {
             var pet = new Pet();
             var visit1 = new Visit();
@@ -268,7 +268,7 @@ class VisitTest {
         }
 
         @Test
-        @DisplayName("adding visit to pet also adds visit to pet's collection")
+        @DisplayName("adding fixture to pet also adds fixture to pet's collection")
         void addingVisitToPetAlsoAddsVisitToPetCollection() {
             var pet = new Pet();
             var visit1 = new Visit();
@@ -301,7 +301,7 @@ class VisitTest {
         }
 
         @Test
-        @DisplayName("setting pet on visit does not automatically add visit to pet")
+        @DisplayName("setting pet on fixture does not automatically add fixture to pet")
         void settingPetOnVisitDoesNotAutomaticallyAddVisitToPet() {
             var pet = new Pet();
             var visit1 = new Visit();
@@ -319,13 +319,13 @@ class VisitTest {
         void visitsAreSortedByDateInPetCollection() {
             var pet = new Pet();
             var visit1 = new Visit();
-            visit1.setDescription("Last visit");
+            visit1.setDescription("Last fixture");
             visit1.setDate(LocalDate.of(2023, 3, 1));
             var visit2 = new Visit();
-            visit2.setDescription("First visit");
+            visit2.setDescription("First fixture");
             visit2.setDate(LocalDate.of(2023, 1, 1));
             var visit3 = new Visit();
-            visit3.setDescription("Middle visit");
+            visit3.setDescription("Middle fixture");
             visit3.setDate(LocalDate.of(2023, 2, 1));
             
             pet.addVisit(visit1);
@@ -333,9 +333,9 @@ class VisitTest {
             pet.addVisit(visit3);
             
             var visits = pet.getVisits();
-            assertThat(visits.get(0).getDescription()).isEqualTo("First visit");
-            assertThat(visits.get(1).getDescription()).isEqualTo("Middle visit");
-            assertThat(visits.get(2).getDescription()).isEqualTo("Last visit");
+            assertThat(visits.get(0).getDescription()).isEqualTo("First fixture");
+            assertThat(visits.get(1).getDescription()).isEqualTo("Middle fixture");
+            assertThat(visits.get(2).getDescription()).isEqualTo("Last fixture");
         }
     }
 
@@ -360,7 +360,7 @@ class VisitTest {
         @Test
         @DisplayName("extends BaseEntity")
         void extendsBaseEntity() {
-            assertThat(visit).isInstanceOf(BaseEntity.class);
+            assertThat(fixture).isInstanceOf(BaseEntity.class);
         }
     }
 
@@ -390,47 +390,47 @@ class VisitTest {
         @Test
         @DisplayName("inherits id lifecycle methods from BaseEntity")
         void inheritsIdLifecycleMethodsFromBaseEntity() {
-            assertThat(visit.getId()).isNull();
-            visit.setId(42);
-            assertThat(visit.getId()).isEqualTo(42);
+            assertThat(fixture.getId()).isNull();
+            fixture.setId(42);
+            assertThat(fixture.getId()).isEqualTo(42);
         }
 
         @Test
         @DisplayName("inherits isNew lifecycle method from BaseEntity")
         void inheritsIsNewLifecycleMethodFromBaseEntity() {
-            assertThat(visit.isNew()).isTrue();
-            visit.setId(1);
-            assertThat(visit.isNew()).isFalse();
+            assertThat(fixture.isNew()).isTrue();
+            fixture.setId(1);
+            assertThat(fixture.isNew()).isFalse();
         }
 
         @Test
         @DisplayName("is new when id is null regardless of other fields")
         void isNewWhenIdIsNullRegardlessOfOtherFields() {
-            visit.setDescription("Checkup");
-            visit.setDate(LocalDate.of(2023, 6, 15));
-            assertThat(visit.isNew()).isTrue();
+            fixture.setDescription("Checkup");
+            fixture.setDate(LocalDate.of(2023, 6, 15));
+            assertThat(fixture.isNew()).isTrue();
         }
 
         @Test
         @DisplayName("is not new when id is set even if other fields are null")
         void isNotNewWhenIdIsSet() {
-            visit.setId(1);
-            assertThat(visit.isNew()).isFalse();
+            fixture.setId(1);
+            assertThat(fixture.isNew()).isFalse();
         }
 
         @Test
         @DisplayName("can set id after construction")
         void canSetIdAfterConstruction() {
-            visit.setId(100);
-            assertThat(visit.getId()).isEqualTo(100);
+            fixture.setId(100);
+            assertThat(fixture.getId()).isEqualTo(100);
         }
 
         @Test
         @DisplayName("can set id to zero")
         void canSetIdToZero() {
-            visit.setId(0);
-            assertThat(visit.getId()).isEqualTo(0);
-            assertThat(visit.isNew()).isFalse();
+            fixture.setId(0);
+            assertThat(fixture.getId()).isZero();
+            assertThat(fixture.isNew()).isFalse();
         }
     }
 
@@ -439,7 +439,7 @@ class VisitTest {
     class BusinessLogicValidation {
 
         @Test
-        @DisplayName("can create visit with current date")
+        @DisplayName("can create fixture with current date")
         void canCreateVisitWithCurrentDate() {
             var visit1 = new Visit();
             var today = LocalDate.now();
@@ -447,7 +447,7 @@ class VisitTest {
         }
 
         @Test
-        @DisplayName("can create visit with past date")
+        @DisplayName("can create fixture with past date")
         void canCreateVisitWithPastDate() {
             var pastDate = LocalDate.of(2020, 5, 10);
             var visit1 = new Visit();
@@ -456,7 +456,7 @@ class VisitTest {
         }
 
         @Test
-        @DisplayName("can create visit with future date")
+        @DisplayName("can create fixture with future date")
         void canCreateVisitWithFutureDate() {
             var futureDate = LocalDate.of(2030, 12, 25);
             var visit1 = new Visit();
@@ -465,7 +465,7 @@ class VisitTest {
         }
 
         @Test
-        @DisplayName("can associate visit with different pets")
+        @DisplayName("can associate fixture with different pets")
         void canAssociateVisitWithDifferentPets() {
             var pet1 = new Pet();
             pet1.setName("Fluffy");
@@ -516,11 +516,11 @@ class VisitTest {
             assertThat(descriptionField.getAnnotation(NotEmpty.class)).isNotNull();
             
             // We can still set null or empty values at the object level
-            visit.setDescription(null);
-            assertThat(visit.getDescription()).isNull();
+            fixture.setDescription(null);
+            assertThat(fixture.getDescription()).isNull();
             
-            visit.setDescription("");
-            assertThat(visit.getDescription()).isEmpty();
+            fixture.setDescription("");
+            assertThat(fixture.getDescription()).isEmpty();
         }
     }
 
@@ -539,25 +539,24 @@ class VisitTest {
             pet.setName("Fluffy");
             pet.setBirthDate(LocalDate.of(2020, 1, 1));
             
-            var visit = new Visit();
-            visit.setDescription("Annual checkup");
-            visit.setDate(LocalDate.of(2023, 6, 15));
+            fixture.setDescription("Annual checkup");
+            fixture.setDate(LocalDate.of(2023, 6, 15));
             
             // Establish relationships
             owner.addPet(pet);
-            pet.addVisit(visit);
+            pet.addVisit(fixture);
             
             // Verify bidirectional relationships
             assertThat(pet.getOwner()).isEqualTo(owner);
-            assertThat(visit.getPet()).isEqualTo(pet);
+            assertThat(fixture.getPet()).isEqualTo(pet);
             assertThat(owner.getPets()).containsExactly(pet);
-            assertThat(pet.getVisits()).containsExactly(visit);
+            assertThat(pet.getVisits()).containsExactly(fixture);
             
             // Verify data integrity
             var ownerFullName = owner.getFirstName() + " " + owner.getLastName();
             assertThat(ownerFullName).isEqualTo("John Doe");
             assertThat(pet.getName()).isEqualTo("Fluffy");
-            assertThat(visit.getDescription()).isEqualTo("Annual checkup");
+            assertThat(fixture.getDescription()).isEqualTo("Annual checkup");
         }
 
         @Test

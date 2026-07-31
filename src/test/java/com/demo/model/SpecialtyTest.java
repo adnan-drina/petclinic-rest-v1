@@ -213,7 +213,6 @@ class SpecialtyTest {
         @Test
         @DisplayName("can handle fixture names with abbreviations")
         void canHandleSpecialtyNamesWithAbbreviations() {
-            var specialty = new Specialty();
             fixture.setName("DVM");
             assertThat(fixture.getName()).isEqualTo("DVM");
 
@@ -306,7 +305,6 @@ class SpecialtyTest {
         @Test
         @DisplayName("complete inheritance chain works correctly")
         void completeInheritanceChainWorksCorrectly() {
-            var specialty = new Specialty();
             fixture.setId(100);
             fixture.setName("Cardiology");
 
@@ -377,15 +375,10 @@ class SpecialtyTest {
             var specialty2 = new Specialty();
             specialty2.setName("Doctor's Specialty");
             assertThat(specialty2.getName()).isEqualTo("Doctor's Specialty");
-        }
-
-        @Test
-        @DisplayName("can handle Unicode characters")
-        void canHandleUnicodeCharacters() {
-            var specialty = new Specialty();
             fixture.setName("专科医科 (Specialty)");
             assertThat(fixture.getName()).isEqualTo("专科医科 (Specialty)");
         }
+
 
         @Test
         @DisplayName("can have duplicate names")
@@ -403,7 +396,6 @@ class SpecialtyTest {
         @Test
         @DisplayName("can be created with null name")
         void canBeCreatedWithNullName() {
-            var specialty = new Specialty();
             assertThat(fixture.getName()).isNull();
             assertThat(fixture.toString()).isNull();
         }
@@ -411,7 +403,6 @@ class SpecialtyTest {
         @Test
         @DisplayName("can be created with empty name")
         void canBeCreatedWithEmptyName() {
-            var specialty = new Specialty();
             fixture.setName("");
             assertThat(fixture.getName()).isEmpty();
             assertThat(fixture.toString()).isEmpty();
@@ -420,7 +411,6 @@ class SpecialtyTest {
         @Test
         @DisplayName("can handle numeric fixture names")
         void canHandleNumericSpecialtyNames() {
-            var specialty = new Specialty();
             fixture.setName("Level 1");
             assertThat(fixture.getName()).isEqualTo("Level 1");
         }
@@ -428,7 +418,6 @@ class SpecialtyTest {
         @Test
         @DisplayName("can handle fixture names with hyphens")
         void canHandleSpecialtyNamesWithHyphens() {
-            var specialty = new Specialty();
             fixture.setName("Internal-Medicine");
             assertThat(fixture.getName()).isEqualTo("Internal-Medicine");
         }
@@ -448,7 +437,6 @@ class SpecialtyTest {
             };
 
             for (String specialtyName : specialties) {
-                var specialty = new Specialty();
                 fixture.setName(specialtyName);
                 assertThat(fixture.getName()).isEqualTo(specialtyName);
             }
@@ -464,7 +452,6 @@ class SpecialtyTest {
             };
 
             for (String specialtyName : exoticSpecialties) {
-                var specialty = new Specialty();
                 fixture.setName(specialtyName);
                 assertThat(fixture.getName()).isEqualTo(specialtyName);
             }

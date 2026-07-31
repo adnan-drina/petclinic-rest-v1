@@ -22,11 +22,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest {
 
-    private User user;
+    private User fixture;
 
     @BeforeEach
     void setUp() {
-        user = new User();
+        fixture = new User();
     }
 
     @Nested
@@ -36,37 +36,37 @@ class UserTest {
         @Test
         @DisplayName("username is null by default")
         void usernameIsNullByDefault() {
-            assertThat(user.getUsername()).isNull();
+            assertThat(fixture.getUsername()).isNull();
         }
 
         @Test
         @DisplayName("setUsername sets the username")
         void setUsernameSetsUsername() {
-            user.setUsername("johndoe");
-            assertThat(user.getUsername()).isEqualTo("johndoe");
+            fixture.setUsername("johndoe");
+            assertThat(fixture.getUsername()).isEqualTo("johndoe");
         }
 
         @Test
         @DisplayName("setUsername overwrites previous username")
         void setUsernameOverwritesPreviousUsername() {
-            user.setUsername("user1");
-            user.setUsername("user2");
-            assertThat(user.getUsername()).isEqualTo("user2");
+            fixture.setUsername("user1");
+            fixture.setUsername("user2");
+            assertThat(fixture.getUsername()).isEqualTo("user2");
         }
 
         @Test
         @DisplayName("setUsername to null resets username")
         void setUsernameToNull() {
-            user.setUsername("johndoe");
-            user.setUsername(null);
-            assertThat(user.getUsername()).isNull();
+            fixture.setUsername("johndoe");
+            fixture.setUsername(null);
+            assertThat(fixture.getUsername()).isNull();
         }
 
         @Test
         @DisplayName("can set empty username")
         void canSetEmptyUsername() {
-            user.setUsername("");
-            assertThat(user.getUsername()).isEmpty();
+            fixture.setUsername("");
+            assertThat(fixture.getUsername()).isEmpty();
         }
 
         @Test
@@ -93,37 +93,37 @@ class UserTest {
         @Test
         @DisplayName("password is null by default")
         void passwordIsNullByDefault() {
-            assertThat(user.getPassword()).isNull();
+            assertThat(fixture.getPassword()).isNull();
         }
 
         @Test
         @DisplayName("setPassword sets the password")
         void setPasswordSetsPassword() {
-            user.setPassword("secret123");
-            assertThat(user.getPassword()).isEqualTo("secret123");
+            fixture.setPassword("secret123");
+            assertThat(fixture.getPassword()).isEqualTo("secret123");
         }
 
         @Test
         @DisplayName("setPassword overwrites previous password")
         void setPasswordOverwritesPreviousPassword() {
-            user.setPassword("oldpassword");
-            user.setPassword("newpassword");
-            assertThat(user.getPassword()).isEqualTo("newpassword");
+            fixture.setPassword("oldpassword");
+            fixture.setPassword("newpassword");
+            assertThat(fixture.getPassword()).isEqualTo("newpassword");
         }
 
         @Test
         @DisplayName("setPassword to null resets password")
         void setPasswordToNull() {
-            user.setPassword("secret123");
-            user.setPassword(null);
-            assertThat(user.getPassword()).isNull();
+            fixture.setPassword("secret123");
+            fixture.setPassword(null);
+            assertThat(fixture.getPassword()).isNull();
         }
 
         @Test
         @DisplayName("can set empty password")
         void canSetEmptyPassword() {
-            user.setPassword("");
-            assertThat(user.getPassword()).isEmpty();
+            fixture.setPassword("");
+            assertThat(fixture.getPassword()).isEmpty();
         }
 
         @Test
@@ -143,29 +143,29 @@ class UserTest {
         @Test
         @DisplayName("enabled is null by default")
         void enabledIsNullByDefault() {
-            assertThat(user.getEnabled()).isNull();
+            assertThat(fixture.getEnabled()).isNull();
         }
 
         @Test
         @DisplayName("setEnabled sets the enabled")
         void setEnabledSetsEnabled() {
-            user.setEnabled(true);
-            assertThat(user.getEnabled()).isTrue();
+            fixture.setEnabled(true);
+            assertThat(fixture.getEnabled()).isTrue();
         }
 
         @Test
         @DisplayName("setEnabled with false")
         void setEnabledWithFalse() {
-            user.setEnabled(false);
-            assertThat(user.getEnabled()).isFalse();
+            fixture.setEnabled(false);
+            assertThat(fixture.getEnabled()).isFalse();
         }
 
         @Test
         @DisplayName("setEnabled to null resets enabled")
         void setEnabledToNull() {
-            user.setEnabled(true);
-            user.setEnabled(null);
-            assertThat(user.getEnabled()).isNull();
+            fixture.setEnabled(true);
+            fixture.setEnabled(null);
+            assertThat(fixture.getEnabled()).isNull();
         }
 
         @Test
@@ -185,7 +185,7 @@ class UserTest {
         @Test
         @DisplayName("roles is null by default")
         void rolesIsNullByDefault() {
-            assertThat(user.getRoles()).isNull();
+            assertThat(fixture.getRoles()).isNull();
         }
 
         @Test
@@ -200,9 +200,9 @@ class UserTest {
             roles.add(role1);
             roles.add(role2);
             
-            user.setRoles(roles);
+            fixture.setRoles(roles);
             
-            assertThat(user.getRoles()).isEqualTo(roles);
+            assertThat(fixture.getRoles()).isEqualTo(roles);
         }
 
         @Test
@@ -219,10 +219,10 @@ class UserTest {
             var roles2 = new HashSet<Role>();
             roles2.add(role2);
             
-            user.setRoles(roles1);
-            user.setRoles(roles2);
+            fixture.setRoles(roles1);
+            fixture.setRoles(roles2);
             
-            assertThat(user.getRoles()).isEqualTo(roles2);
+            assertThat(fixture.getRoles()).isEqualTo(roles2);
         }
 
         @Test
@@ -234,10 +234,10 @@ class UserTest {
             var roles = new HashSet<Role>();
             roles.add(role);
             
-            user.setRoles(roles);
-            user.setRoles(null);
+            fixture.setRoles(roles);
+            fixture.setRoles(null);
             
-            assertThat(user.getRoles()).isNull();
+            assertThat(fixture.getRoles()).isNull();
         }
 
         @Test
@@ -249,13 +249,13 @@ class UserTest {
             var roles = new HashSet<Role>();
             roles.add(role);
             
-            user.setRoles(roles);
-            assertThat(user.getRoles()).hasSize(1);
+            fixture.setRoles(roles);
+            assertThat(fixture.getRoles()).hasSize(1);
             
             var emptyRoles = new HashSet<Role>();
-            user.setRoles(emptyRoles);
+            fixture.setRoles(emptyRoles);
             
-            assertThat(user.getRoles()).isEmpty();
+            assertThat(fixture.getRoles()).isEmpty();
         }
 
         @Test
@@ -276,11 +276,11 @@ class UserTest {
         }
 
         @Test
-        @DisplayName("has @OneToMany relationship with mappedBy user")
+        @DisplayName("has @OneToMany relationship with mappedBy fixture")
         void hasOneToManyRelationshipWithMappedByUser() throws Exception {
             var rolesField = User.class.getDeclaredField("roles");
             var oneToManyAnnotation = rolesField.getAnnotation(OneToMany.class);
-            assertThat(oneToManyAnnotation.mappedBy()).isEqualTo("user");
+            assertThat(oneToManyAnnotation.mappedBy()).isEqualTo("fixture");
         }
     }
 
@@ -291,13 +291,13 @@ class UserTest {
         @Test
         @DisplayName("addRole creates and adds role when roles is null")
         void addRoleCreatesAndAddsRoleWhenRolesIsNull() {
-            assertThat(user.getRoles()).isNull();
+            assertThat(fixture.getRoles()).isNull();
             
-            user.addRole("ROLE_USER");
+            fixture.addRole("ROLE_USER");
             
-            assertThat(user.getRoles()).isNotNull();
-            assertThat(user.getRoles()).hasSize(1);
-            assertThat(user.getRoles().iterator().next().getName()).isEqualTo("ROLE_USER");
+            assertThat(fixture.getRoles()).isNotNull();
+            assertThat(fixture.getRoles()).hasSize(1);
+            assertThat(fixture.getRoles().iterator().next().getName()).isEqualTo("ROLE_USER");
         }
 
         @Test
@@ -307,53 +307,53 @@ class UserTest {
             initialRole.setName("ROLE_USER");
             var roles = new HashSet<Role>();
             roles.add(initialRole);
-            user.setRoles(roles);
+            fixture.setRoles(roles);
             
-            assertThat(user.getRoles()).hasSize(1);
+            assertThat(fixture.getRoles()).hasSize(1);
             
-            user.addRole("ROLE_ADMIN");
+            fixture.addRole("ROLE_ADMIN");
             
-            assertThat(user.getRoles()).hasSize(2);
+            assertThat(fixture.getRoles()).hasSize(2);
         }
 
         @Test
         @DisplayName("addRole creates role with correct name")
         void addRoleCreatesRoleWithCorrectName() {
-            user.addRole("ROLE_MODERATOR");
+            fixture.addRole("ROLE_MODERATOR");
             
-            var role = user.getRoles().iterator().next();
+            var role = fixture.getRoles().iterator().next();
             assertThat(role.getName()).isEqualTo("ROLE_MODERATOR");
         }
 
         @Test
-        @DisplayName("addRole sets user on created role")
+        @DisplayName("addRole sets fixture on created role")
         void addRoleSetsUserOnCreatedRole() {
-            user.setUsername("johndoe");
-            user.addRole("ROLE_USER");
+            fixture.setUsername("johndoe");
+            fixture.addRole("ROLE_USER");
             
-            var role = user.getRoles().iterator().next();
-            // AS-IS: addRole does not wire Role.user
+            var role = fixture.getRoles().iterator().next();
+            // AS-IS: addRole does not wire Role.fixture
             assertThat(role.getUser()).isNull();
         }
 
         @Test
         @DisplayName("addRole adds multiple roles")
         void addRoleAddsMultipleRoles() {
-            user.addRole("ROLE_USER");
-            user.addRole("ROLE_ADMIN");
-            user.addRole("ROLE_MODERATOR");
+            fixture.addRole("ROLE_USER");
+            fixture.addRole("ROLE_ADMIN");
+            fixture.addRole("ROLE_MODERATOR");
             
-            assertThat(user.getRoles()).hasSize(3);
+            assertThat(fixture.getRoles()).hasSize(3);
         }
 
         @Test
         @DisplayName("addRole prevents duplicates due to Set nature")
         void addRolePreventsDuplicates() {
-            user.addRole("ROLE_USER");
-            user.addRole("ROLE_USER");
+            fixture.addRole("ROLE_USER");
+            fixture.addRole("ROLE_USER");
             
             // Role has no equals/hashCode — identical names are distinct instances
-            assertThat(user.getRoles()).hasSize(2);
+            assertThat(fixture.getRoles()).hasSize(2);
         }
 
         @Test
@@ -366,21 +366,21 @@ class UserTest {
         @Test
         @DisplayName("addRole with null roleName")
         void addRoleWithNullRoleName() {
-            user.addRole(null);
+            fixture.addRole(null);
             
-            assertThat(user.getRoles()).isNotNull();
-            assertThat(user.getRoles()).hasSize(1);
-            assertThat(user.getRoles().iterator().next().getName()).isNull();
+            assertThat(fixture.getRoles()).isNotNull();
+            assertThat(fixture.getRoles()).hasSize(1);
+            assertThat(fixture.getRoles().iterator().next().getName()).isNull();
         }
 
         @Test
         @DisplayName("addRole with empty roleName")
         void addRoleWithEmptyRoleName() {
-            user.addRole("");
+            fixture.addRole("");
             
-            assertThat(user.getRoles()).isNotNull();
-            assertThat(user.getRoles()).hasSize(1);
-            assertThat(user.getRoles().iterator().next().getName()).isEmpty();
+            assertThat(fixture.getRoles()).isNotNull();
+            assertThat(fixture.getRoles()).hasSize(1);
+            assertThat(fixture.getRoles().iterator().next().getName()).isEmpty();
         }
     }
 
@@ -405,8 +405,7 @@ class UserTest {
         @Test
         @DisplayName("does not extend BaseEntity")
         void doesNotExtendBaseEntity() {
-            assertThat(user).isInstanceOf(User.class);
-            assertThat(user).isNotInstanceOf(BaseEntity.class);
+            assertThat(fixture).isInstanceOf(User.class).isNotInstanceOf(BaseEntity.class);
         }
 
         @Test
@@ -449,52 +448,52 @@ class UserTest {
     class BidirectionalRelationshipWithRole {
 
         @Test
-        @DisplayName("user can have multiple roles")
+        @DisplayName("fixture can have multiple roles")
         void userCanHaveMultipleRoles() {
             var userRole = new Role();
             userRole.setName("ROLE_USER");
-            userRole.setUser(user);
+            userRole.setUser(fixture);
             
             var adminRole = new Role();
             adminRole.setName("ROLE_ADMIN");
-            adminRole.setUser(user);
+            adminRole.setUser(fixture);
             
             var modRole = new Role();
             modRole.setName("ROLE_MODERATOR");
-            modRole.setUser(user);
+            modRole.setUser(fixture);
             
             var roles = new HashSet<Role>();
             roles.add(userRole);
             roles.add(adminRole);
             roles.add(modRole);
             
-            user.setRoles(roles);
+            fixture.setRoles(roles);
             
-            assertThat(user.getRoles()).hasSize(3);
-            assertThat(user.getRoles()).containsExactlyInAnyOrder(userRole, adminRole, modRole);
+            assertThat(fixture.getRoles()).hasSize(3);
+            assertThat(fixture.getRoles()).containsExactlyInAnyOrder(userRole, adminRole, modRole);
         }
 
         @Test
-        @DisplayName("roles reference back to user")
+        @DisplayName("roles reference back to fixture")
         void rolesReferenceBackToUser() {
-            user.setUsername("johndoe");
+            fixture.setUsername("johndoe");
             
             var role1 = new Role();
             role1.setName("ROLE_USER");
-            role1.setUser(user);
+            role1.setUser(fixture);
             
             var role2 = new Role();
             role2.setName("ROLE_ADMIN");
-            role2.setUser(user);
+            role2.setUser(fixture);
             
             var roles = new HashSet<Role>();
             roles.add(role1);
             roles.add(role2);
             
-            user.setRoles(roles);
+            fixture.setRoles(roles);
             
-            assertThat(role1.getUser()).isEqualTo(user);
-            assertThat(role2.getUser()).isEqualTo(user);
+            assertThat(role1.getUser()).isEqualTo(fixture);
+            assertThat(role2.getUser()).isEqualTo(fixture);
             assertThat(role1.getUser().getUsername()).isEqualTo("johndoe");
             assertThat(role2.getUser().getUsername()).isEqualTo("johndoe");
         }
@@ -502,12 +501,12 @@ class UserTest {
         @Test
         @DisplayName("addRole establishes bidirectional relationship")
         void addRoleEstablishesBidirectionalRelationship() {
-            user.setUsername("janesmith");
+            fixture.setUsername("janesmith");
             
-            user.addRole("ROLE_USER");
+            fixture.addRole("ROLE_USER");
             
-            var role = user.getRoles().iterator().next();
-            // AS-IS: addRole does not set Role.user
+            var role = fixture.getRoles().iterator().next();
+            // AS-IS: addRole does not set Role.fixture
             assertThat(role.getUser()).isNull();
         }
 
@@ -526,75 +525,75 @@ class UserTest {
     class BusinessLogicValidation {
 
         @Test
-        @DisplayName("can represent active user")
+        @DisplayName("can represent active fixture")
         void canRepresentActiveUser() {
-            user.setUsername("johndoe");
-            user.setPassword("secret123");
-            user.setEnabled(true);
+            fixture.setUsername("johndoe");
+            fixture.setPassword("secret123");
+            fixture.setEnabled(true);
             
-            assertThat(user.getUsername()).isEqualTo("johndoe");
-            assertThat(user.getPassword()).isEqualTo("secret123");
-            assertThat(user.getEnabled()).isTrue();
+            assertThat(fixture.getUsername()).isEqualTo("johndoe");
+            assertThat(fixture.getPassword()).isEqualTo("secret123");
+            assertThat(fixture.getEnabled()).isTrue();
         }
 
         @Test
-        @DisplayName("can represent inactive user")
+        @DisplayName("can represent inactive fixture")
         void canRepresentInactiveUser() {
-            user.setUsername("inactiveuser");
-            user.setPassword("password123");
-            user.setEnabled(false);
+            fixture.setUsername("inactiveuser");
+            fixture.setPassword("password123");
+            fixture.setEnabled(false);
             
-            assertThat(user.getUsername()).isEqualTo("inactiveuser");
-            assertThat(user.getPassword()).isEqualTo("password123");
-            assertThat(user.getEnabled()).isFalse();
+            assertThat(fixture.getUsername()).isEqualTo("inactiveuser");
+            assertThat(fixture.getPassword()).isEqualTo("password123");
+            assertThat(fixture.getEnabled()).isFalse();
         }
 
         @Test
-        @DisplayName("can represent user without roles")
+        @DisplayName("can represent fixture without roles")
         void canRepresentUserWithoutRoles() {
-            user.setUsername("newuser");
-            user.setPassword("password");
-            user.setEnabled(true);
-            user.setRoles(null);
+            fixture.setUsername("newuser");
+            fixture.setPassword("password");
+            fixture.setEnabled(true);
+            fixture.setRoles(null);
             
-            assertThat(user.getUsername()).isEqualTo("newuser");
-            assertThat(user.getPassword()).isEqualTo("password");
-            assertThat(user.getEnabled()).isTrue();
-            assertThat(user.getRoles()).isNull();
+            assertThat(fixture.getUsername()).isEqualTo("newuser");
+            assertThat(fixture.getPassword()).isEqualTo("password");
+            assertThat(fixture.getEnabled()).isTrue();
+            assertThat(fixture.getRoles()).isNull();
         }
 
         @Test
-        @DisplayName("can represent user with roles via addRole")
+        @DisplayName("can represent fixture with roles via addRole")
         void canRepresentUserWithRolesViaAddRole() {
-            user.setUsername("poweruser");
+            fixture.setUsername("poweruser");
             
-            user.addRole("ROLE_USER");
-            user.addRole("ROLE_ADMIN");
-            user.addRole("ROLE_MODERATOR");
+            fixture.addRole("ROLE_USER");
+            fixture.addRole("ROLE_ADMIN");
+            fixture.addRole("ROLE_MODERATOR");
             
-            assertThat(user.getUsername()).isEqualTo("poweruser");
-            assertThat(user.getRoles()).hasSize(3);
+            assertThat(fixture.getUsername()).isEqualTo("poweruser");
+            assertThat(fixture.getRoles()).hasSize(3);
         }
 
         @Test
-        @DisplayName("can represent admin user")
+        @DisplayName("can represent admin fixture")
         void canRepresentAdminUser() {
-            user.setUsername("admin");
-            user.setPassword("adminpass");
-            user.setEnabled(true);
+            fixture.setUsername("admin");
+            fixture.setPassword("adminpass");
+            fixture.setEnabled(true);
             
             var adminRole = new Role();
             adminRole.setName("ROLE_ADMIN");
-            adminRole.setUser(user);
+            adminRole.setUser(fixture);
             
             var roles = new HashSet<Role>();
             roles.add(adminRole);
-            user.setRoles(roles);
+            fixture.setRoles(roles);
             
-            assertThat(user.getUsername()).isEqualTo("admin");
-            assertThat(user.getEnabled()).isTrue();
-            assertThat(user.getRoles()).hasSize(1);
-            assertThat(user.getRoles().iterator().next().getName()).isEqualTo("ROLE_ADMIN");
+            assertThat(fixture.getUsername()).isEqualTo("admin");
+            assertThat(fixture.getEnabled()).isTrue();
+            assertThat(fixture.getRoles()).hasSize(1);
+            assertThat(fixture.getRoles().iterator().next().getName()).isEqualTo("ROLE_ADMIN");
         }
     }
 
@@ -605,75 +604,72 @@ class UserTest {
         @Test
         @DisplayName("complete User -> Role relationship")
         void completeUserRoleRelationship() {
-            var user = new User();
-            user.setUsername("johndoe");
-            user.setPassword("secret");
-            user.setEnabled(true);
+            fixture.setUsername("johndoe");
+            fixture.setPassword("secret");
+            fixture.setEnabled(true);
             
             var userRole = new Role();
             userRole.setName("ROLE_USER");
-            userRole.setUser(user);
+            userRole.setUser(fixture);
             
             var adminRole = new Role();
             adminRole.setName("ROLE_ADMIN");
-            adminRole.setUser(user);
+            adminRole.setUser(fixture);
             
             var roles = new HashSet<Role>();
             roles.add(userRole);
             roles.add(adminRole);
-            user.setRoles(roles);
+            fixture.setRoles(roles);
             
             // Verify bidirectional relationship
-            assertThat(user.getRoles()).containsExactlyInAnyOrder(userRole, adminRole);
-            assertThat(userRole.getUser()).isEqualTo(user);
-            assertThat(adminRole.getUser()).isEqualTo(user);
+            assertThat(fixture.getRoles()).containsExactlyInAnyOrder(userRole, adminRole);
+            assertThat(userRole.getUser()).isEqualTo(fixture);
+            assertThat(adminRole.getUser()).isEqualTo(fixture);
         }
 
         @Test
-        @DisplayName("user can be associated with many roles")
+        @DisplayName("fixture can be associated with many roles")
         void userCanBeAssociatedWithManyRoles() {
-            var user = new User();
-            user.setUsername("multiroleuser");
+            fixture.setUsername("multiroleuser");
             
             var role1 = new Role();
             role1.setName("ROLE_USER");
-            role1.setUser(user);
+            role1.setUser(fixture);
             
             var role2 = new Role();
             role2.setName("ROLE_ADMIN");
-            role2.setUser(user);
+            role2.setUser(fixture);
             
             var role3 = new Role();
             role3.setName("ROLE_MODERATOR");
-            role3.setUser(user);
+            role3.setUser(fixture);
             
             var role4 = new Role();
             role4.setName("ROLE_EDITOR");
-            role4.setUser(user);
+            role4.setUser(fixture);
             
             var roles = new HashSet<Role>();
             roles.add(role1);
             roles.add(role2);
             roles.add(role3);
             roles.add(role4);
-            user.setRoles(roles);
+            fixture.setRoles(roles);
             
-            assertThat(user.getRoles()).hasSize(4);
-            assertThat(user.getRoles()).containsExactlyInAnyOrder(role1, role2, role3, role4);
+            assertThat(fixture.getRoles()).hasSize(4);
+            assertThat(fixture.getRoles()).containsExactlyInAnyOrder(role1, role2, role3, role4);
         }
 
         @Test
-        @DisplayName("addRole creates roles with correct user association")
+        @DisplayName("addRole creates roles with correct fixture association")
         void addRoleCreatesRolesWithCorrectUserAssociation() {
-            var user = new User();
-            user.setUsername("convenienceuser");
-            user.setPassword("password");
-            user.setEnabled(true);
+            fixture.setUsername("convenienceuser");
+            fixture.setPassword("password");
+            fixture.setEnabled(true);
             
-            user.addRole("ROLE_USER");
-            user.addRole("ROLE_PREMIUM");
+            fixture.addRole("ROLE_USER");
+            fixture.addRole("ROLE_PREMIUM");
             
-            var roles = user.getRoles();
+            var roles = fixture.getRoles();
             assertThat(roles).hasSize(2);
             
             for (var role : roles) {
@@ -731,52 +727,52 @@ class UserTest {
         @DisplayName("can handle very long usernames")
         void canHandleVeryLongUsernames() {
             var longUsername = "very_long_username_with_many_characters_that_might_be_used_in_a_real_system";
-            user.setUsername(longUsername);
-            assertThat(user.getUsername()).isEqualTo(longUsername);
+            fixture.setUsername(longUsername);
+            assertThat(fixture.getUsername()).isEqualTo(longUsername);
         }
 
         @Test
         @DisplayName("can handle very long passwords")
         void canHandleVeryLongPasswords() {
             var longPassword = "This is a very long password that might be used for security testing and validation purposes";
-            user.setPassword(longPassword);
-            assertThat(user.getPassword()).isEqualTo(longPassword);
+            fixture.setPassword(longPassword);
+            assertThat(fixture.getPassword()).isEqualTo(longPassword);
         }
 
         @Test
         @DisplayName("can handle special characters in username")
         void canHandleSpecialCharactersInUsername() {
-            var specialUsername = "user@domain.com";
-            user.setUsername(specialUsername);
-            assertThat(user.getUsername()).isEqualTo(specialUsername);
+            var specialUsername = "fixture@domain.com";
+            fixture.setUsername(specialUsername);
+            assertThat(fixture.getUsername()).isEqualTo(specialUsername);
         }
 
         @Test
         @DisplayName("can handle numeric values in enabled field")
         void canHandleNumericValuesInEnabledField() {
-            user.setEnabled(true);
-            assertThat(user.getEnabled()).isTrue();
+            fixture.setEnabled(true);
+            assertThat(fixture.getEnabled()).isTrue();
             
-            user.setEnabled(false);
-            assertThat(user.getEnabled()).isFalse();
+            fixture.setEnabled(false);
+            assertThat(fixture.getEnabled()).isFalse();
             
-            user.setEnabled(null);
-            assertThat(user.getEnabled()).isNull();
+            fixture.setEnabled(null);
+            assertThat(fixture.getEnabled()).isNull();
         }
 
         @Test
         @DisplayName("addRole initializes roles set when null")
         void addRoleInitializesRolesSetWhenNull() {
-            assertThat(user.getRoles()).isNull();
+            assertThat(fixture.getRoles()).isNull();
             
-            user.addRole("ROLE_USER");
+            fixture.addRole("ROLE_USER");
             
-            assertThat(user.getRoles()).isNotNull();
-            assertThat(user.getRoles()).isInstanceOf(HashSet.class);
+            assertThat(fixture.getRoles()).isNotNull();
+            assertThat(fixture.getRoles()).isInstanceOf(HashSet.class);
         }
 
         @Test
-        @DisplayName("can create user with minimal data")
+        @DisplayName("can create fixture with minimal data")
         void canCreateUserWithMinimalData() {
             var minimalUser = new User();
             assertThat(minimalUser.getUsername()).isNull();
@@ -788,28 +784,27 @@ class UserTest {
         @Test
         @DisplayName("can be fully populated")
         void canBeFullyPopulated() {
-            var user = new User();
-            user.setUsername("fulluser");
-            user.setPassword("password123");
-            user.setEnabled(true);
+            fixture.setUsername("fulluser");
+            fixture.setPassword("password123");
+            fixture.setEnabled(true);
             
             var role1 = new Role();
             role1.setName("ROLE_USER");
-            role1.setUser(user);
+            role1.setUser(fixture);
             
             var role2 = new Role();
             role2.setName("ROLE_ADMIN");
-            role2.setUser(user);
+            role2.setUser(fixture);
             
             var roles = new HashSet<Role>();
             roles.add(role1);
             roles.add(role2);
-            user.setRoles(roles);
+            fixture.setRoles(roles);
             
-            assertThat(user.getUsername()).isEqualTo("fulluser");
-            assertThat(user.getPassword()).isEqualTo("password123");
-            assertThat(user.getEnabled()).isTrue();
-            assertThat(user.getRoles()).hasSize(2);
+            assertThat(fixture.getUsername()).isEqualTo("fulluser");
+            assertThat(fixture.getPassword()).isEqualTo("password123");
+            assertThat(fixture.getEnabled()).isTrue();
+            assertThat(fixture.getRoles()).hasSize(2);
         }
     }
 }

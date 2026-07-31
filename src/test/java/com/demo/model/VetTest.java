@@ -14,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class VetTest {
 
-    private Vet vet;
+    private Vet fixture;
 
     @BeforeEach
     void setUp() {
-        vet = new Vet();
+        fixture = new Vet();
     }
 
     @Nested
@@ -28,14 +28,14 @@ class VetTest {
         @Test
         @DisplayName("specialties is null by default")
         void specialtiesIsNullByDefault() {
-            var specialties = vet.getSpecialties();
+            var specialties = fixture.getSpecialties();
             assertThat(specialties).isNotNull().isEmpty();
         }
 
         @Test
         @DisplayName("getSpecialties returns unmodifiable list")
         void getSpecialtiesReturnsUnmodifiableList() {
-            var specialties = vet.getSpecialties();
+            var specialties = fixture.getSpecialties();
             assertThat(specialties).isInstanceOf(Collections.unmodifiableList(List.of()).getClass());
         }
 
@@ -45,9 +45,9 @@ class VetTest {
             var cardiology = new Specialty();
             cardiology.setName("Cardiology");
             
-            vet.addSpecialty(cardiology);
+            fixture.addSpecialty(cardiology);
             
-            var specialties = vet.getSpecialties();
+            var specialties = fixture.getSpecialties();
             assertThat(specialties).hasSize(1);
             assertThat(specialties.get(0).getName()).isEqualTo("Cardiology");
         }
@@ -62,11 +62,11 @@ class VetTest {
             var cardiology = new Specialty();
             cardiology.setName("Cardiology");
             
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(radiology);
-            vet.addSpecialty(cardiology);
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(radiology);
+            fixture.addSpecialty(cardiology);
             
-            assertThat(vet.getSpecialties()).hasSize(3);
+            assertThat(fixture.getSpecialties()).hasSize(3);
         }
 
         @Test
@@ -79,11 +79,11 @@ class VetTest {
             var radiology = new Specialty();
             radiology.setName("Radiology");
             
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(cardiology);
-            vet.addSpecialty(radiology);
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(cardiology);
+            fixture.addSpecialty(radiology);
             
-            var specialties = vet.getSpecialties();
+            var specialties = fixture.getSpecialties();
             assertThat(specialties.get(0).getName()).isEqualTo("Cardiology");
             assertThat(specialties.get(1).getName()).isEqualTo("Radiology");
             assertThat(specialties.get(2).getName()).isEqualTo("Surgery");
@@ -99,11 +99,11 @@ class VetTest {
             var cardiology = new Specialty();
             cardiology.setName("Cardiology");
             
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(nullSpecialty);
-            vet.addSpecialty(cardiology);
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(nullSpecialty);
+            fixture.addSpecialty(cardiology);
             
-            var specialties = vet.getSpecialties();
+            var specialties = fixture.getSpecialties();
             assertThat(specialties.get(0).getName()).isEqualTo("Cardiology");
             assertThat(specialties.get(1).getName()).isEqualTo("Surgery");
             assertThat(specialties.get(2).getName()).isNull();
@@ -121,12 +121,12 @@ class VetTest {
             specialties.add(surgery);
             specialties.add(radiology);
             
-            vet.setSpecialties(specialties);
+            fixture.setSpecialties(specialties);
             
-            assertThat(vet.getSpecialties()).hasSize(2);
+            assertThat(fixture.getSpecialties()).hasSize(2);
             // getSpecialties sorts by name
-            assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("Radiology");
-            assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("Surgery");
+            assertThat(fixture.getSpecialties().get(0).getName()).isEqualTo("Radiology");
+            assertThat(fixture.getSpecialties().get(1).getName()).isEqualTo("Surgery");
         }
 
         @Test
@@ -137,21 +137,21 @@ class VetTest {
             var cardiology = new Specialty();
             cardiology.setName("Cardiology");
             
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(cardiology);
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(cardiology);
             
-            assertThat(vet.getSpecialties()).hasSize(2);
+            assertThat(fixture.getSpecialties()).hasSize(2);
             
-            vet.clearSpecialties();
+            fixture.clearSpecialties();
             
-            assertThat(vet.getSpecialties()).isEmpty();
+            assertThat(fixture.getSpecialties()).isEmpty();
         }
 
         @Test
         @DisplayName("clearSpecialties on empty collection does not fail")
         void clearSpecialtiesOnEmptyCollectionDoesNotFail() {
-            vet.clearSpecialties();
-            assertThat(vet.getSpecialties()).isEmpty();
+            fixture.clearSpecialties();
+            assertThat(fixture.getSpecialties()).isEmpty();
         }
 
         @Test
@@ -188,7 +188,7 @@ class VetTest {
         @Test
         @DisplayName("returns zero when no specialties")
         void returnsZeroWhenNoSpecialties() {
-            assertThat(vet.getNrOfSpecialties()).isZero();
+            assertThat(fixture.getNrOfSpecialties()).isZero();
         }
 
         @Test
@@ -201,14 +201,14 @@ class VetTest {
             var radiology = new Specialty();
             radiology.setName("Radiology");
             
-            vet.addSpecialty(surgery);
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
+            fixture.addSpecialty(surgery);
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(1);
             
-            vet.addSpecialty(cardiology);
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+            fixture.addSpecialty(cardiology);
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(2);
             
-            vet.addSpecialty(radiology);
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(3);
+            fixture.addSpecialty(radiology);
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(3);
         }
 
         @Test
@@ -219,12 +219,12 @@ class VetTest {
             var cardiology = new Specialty();
             cardiology.setName("Cardiology");
             
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(cardiology);
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(cardiology);
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(2);
             
-            vet.clearSpecialties();
-            assertThat(vet.getNrOfSpecialties()).isZero();
+            fixture.clearSpecialties();
+            assertThat(fixture.getNrOfSpecialties()).isZero();
         }
 
         @Test
@@ -239,8 +239,8 @@ class VetTest {
             specialties.add(surgery);
             specialties.add(cardiology);
             
-            vet.setSpecialties(specialties);
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+            fixture.setSpecialties(specialties);
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(2);
         }
 
         @Test
@@ -258,18 +258,18 @@ class VetTest {
         @Test
         @DisplayName("getSpecialtiesInternal returns non-null set")
         void getSpecialtiesInternalReturnsNonNullSet() {
-            var specialtiesInternal = vet.getSpecialtiesInternal();
+            var specialtiesInternal = fixture.getSpecialtiesInternal();
             assertThat(specialtiesInternal).isNotNull();
         }
 
         @Test
         @DisplayName("getSpecialtiesInternal initializes empty set when null")
         void getSpecialtiesInternalInitializesEmptySetWhenNull() {
-            var specialtiesInternal = vet.getSpecialtiesInternal();
+            var specialtiesInternal = fixture.getSpecialtiesInternal();
             assertThat(specialtiesInternal).isNotNull().isEmpty();
             
             // Call again to verify it returns the same instance
-            var specialtiesInternal2 = vet.getSpecialtiesInternal();
+            var specialtiesInternal2 = fixture.getSpecialtiesInternal();
             assertThat(specialtiesInternal2).isSameAs(specialtiesInternal);
         }
 
@@ -285,18 +285,18 @@ class VetTest {
             specialties.add(surgery);
             specialties.add(cardiology);
             
-            vet.setSpecialtiesInternal(specialties);
+            fixture.setSpecialtiesInternal(specialties);
             
-            assertThat(vet.getSpecialties()).hasSize(2);
+            assertThat(fixture.getSpecialties()).hasSize(2);
         }
 
         @Test
         @DisplayName("setSpecialtiesInternal with null creates null internal set")
         void setSpecialtiesInternalWithNullCreatesNullInternalSet() {
-            vet.setSpecialtiesInternal(null);
+            fixture.setSpecialtiesInternal(null);
             
             // getSpecialtiesInternal will create a new empty set when called
-            var specialties = vet.getSpecialties();
+            var specialties = fixture.getSpecialties();
             assertThat(specialties).isNotNull().isEmpty();
         }
 
@@ -337,13 +337,13 @@ class VetTest {
         @Test
         @DisplayName("extends Person")
         void extendsPerson() {
-            assertThat(vet).isInstanceOf(Person.class);
+            assertThat(fixture).isInstanceOf(Person.class);
         }
 
         @Test
         @DisplayName("extends BaseEntity through Person")
         void extendsBaseEntityThroughPerson() {
-            assertThat(vet).isInstanceOf(BaseEntity.class);
+            assertThat(fixture).isInstanceOf(BaseEntity.class);
         }
     }
 
@@ -374,44 +374,44 @@ class VetTest {
         @Test
         @DisplayName("inherits name fields from Person")
         void inheritsNameFieldsFromPerson() {
-            vet.setFirstName("Dr. Jane");
-            vet.setLastName("Smith");
-            assertThat(vet.getFirstName()).isEqualTo("Dr. Jane");
-            assertThat(vet.getLastName()).isEqualTo("Smith");
+            fixture.setFirstName("Dr. Jane");
+            fixture.setLastName("Smith");
+            assertThat(fixture.getFirstName()).isEqualTo("Dr. Jane");
+            assertThat(fixture.getLastName()).isEqualTo("Smith");
             // getFullName doesn't exist, verify with firstName + lastName
-            var fullName = vet.getFirstName() + " " + vet.getLastName();
+            var fullName = fixture.getFirstName() + " " + fixture.getLastName();
             assertThat(fullName).isEqualTo("Dr. Jane Smith");
         }
 
         @Test
         @DisplayName("inherits id lifecycle methods from BaseEntity")
         void inheritsIdLifecycleMethodsFromBaseEntity() {
-            assertThat(vet.getId()).isNull();
-            vet.setId(42);
-            assertThat(vet.getId()).isEqualTo(42);
+            assertThat(fixture.getId()).isNull();
+            fixture.setId(42);
+            assertThat(fixture.getId()).isEqualTo(42);
         }
 
         @Test
         @DisplayName("inherits isNew lifecycle method from BaseEntity")
         void inheritsIsNewLifecycleMethodFromBaseEntity() {
-            assertThat(vet.isNew()).isTrue();
-            vet.setId(1);
-            assertThat(vet.isNew()).isFalse();
+            assertThat(fixture.isNew()).isTrue();
+            fixture.setId(1);
+            assertThat(fixture.isNew()).isFalse();
         }
 
         @Test
         @DisplayName("is new when id is null regardless of other fields")
         void isNewWhenIdIsNullRegardlessOfOtherFields() {
-            vet.setFirstName("Dr. John");
-            vet.setLastName("Doe");
-            assertThat(vet.isNew()).isTrue();
+            fixture.setFirstName("Dr. John");
+            fixture.setLastName("Doe");
+            assertThat(fixture.isNew()).isTrue();
         }
 
         @Test
         @DisplayName("is not new when id is set even if other fields are null")
         void isNotNewWhenIdIsSet() {
-            vet.setId(1);
-            assertThat(vet.isNew()).isFalse();
+            fixture.setId(1);
+            assertThat(fixture.isNew()).isFalse();
         }
     }
 
@@ -420,17 +420,17 @@ class VetTest {
     class BidirectionalRelationshipWithSpecialty {
 
         @Test
-        @DisplayName("adding specialty to vet does not set back-reference")
+        @DisplayName("adding specialty to fixture does not set back-reference")
         void addingSpecialtyToVetDoesNotSetBackReference() {
             var cardiology = new Specialty();
             cardiology.setName("Cardiology");
             
-            vet.addSpecialty(cardiology);
+            fixture.addSpecialty(cardiology);
             
             // Vet maintains unidirectional relationship to Specialty
             // Specialty doesn't maintain back-reference to Vets
-            assertThat(vet.getSpecialties()).hasSize(1);
-            assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("Cardiology");
+            assertThat(fixture.getSpecialties()).hasSize(1);
+            assertThat(fixture.getSpecialties().get(0).getName()).isEqualTo("Cardiology");
         }
 
         @Test
@@ -453,20 +453,20 @@ class VetTest {
         }
 
         @Test
-        @DisplayName("vet can change specialties")
+        @DisplayName("fixture can change specialties")
         void vetCanChangeSpecialties() {
             var surgery = new Specialty();
             surgery.setName("Surgery");
             var cardiology = new Specialty();
             cardiology.setName("Cardiology");
             
-            vet.addSpecialty(surgery);
-            assertThat(vet.getSpecialties()).hasSize(1);
+            fixture.addSpecialty(surgery);
+            assertThat(fixture.getSpecialties()).hasSize(1);
             
-            vet.clearSpecialties();
-            vet.addSpecialty(cardiology);
-            assertThat(vet.getSpecialties()).hasSize(1);
-            assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("Cardiology");
+            fixture.clearSpecialties();
+            fixture.addSpecialty(cardiology);
+            assertThat(fixture.getSpecialties()).hasSize(1);
+            assertThat(fixture.getSpecialties().get(0).getName()).isEqualTo("Cardiology");
         }
     }
 
@@ -533,11 +533,11 @@ class VetTest {
             radiology.setName("Radiology");
             
             // Add in random order
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(radiology);
-            vet.addSpecialty(cardiology);
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(radiology);
+            fixture.addSpecialty(cardiology);
             
-            var specialties = vet.getSpecialties();
+            var specialties = fixture.getSpecialties();
             assertThat(specialties.get(0).getName()).isEqualTo("Cardiology");
             assertThat(specialties.get(1).getName()).isEqualTo("Radiology");
             assertThat(specialties.get(2).getName()).isEqualTo("Surgery");
@@ -553,16 +553,16 @@ class VetTest {
             var radiology = new Specialty();
             radiology.setName("Radiology");
             
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(cardiology);
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(cardiology);
             
-            vet.clearSpecialties();
-            assertThat(vet.getSpecialties()).isEmpty();
-            assertThat(vet.getNrOfSpecialties()).isZero();
+            fixture.clearSpecialties();
+            assertThat(fixture.getSpecialties()).isEmpty();
+            assertThat(fixture.getNrOfSpecialties()).isZero();
             
-            vet.addSpecialty(radiology);
-            assertThat(vet.getSpecialties()).hasSize(1);
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
+            fixture.addSpecialty(radiology);
+            assertThat(fixture.getSpecialties()).hasSize(1);
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(1);
         }
     }
 
@@ -573,9 +573,8 @@ class VetTest {
         @Test
         @DisplayName("complete Vet -> Specialty relationship")
         void completeVetSpecialtyRelationship() {
-            var vet = new Vet();
-            vet.setFirstName("Dr. Lisa");
-            vet.setLastName("Wilson");
+            fixture.setFirstName("Dr. Lisa");
+            fixture.setLastName("Wilson");
             
             var surgery = new Specialty();
             surgery.setName("Surgery");
@@ -586,17 +585,17 @@ class VetTest {
             cardiology.setId(2);
             
             // Establish relationship
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(cardiology);
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(cardiology);
             
             // Verify relationship
-            assertThat(vet.getSpecialties()).hasSize(2);
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
-            var fullName = vet.getFirstName() + " " + vet.getLastName();
+            assertThat(fixture.getSpecialties()).hasSize(2);
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(2);
+            var fullName = fixture.getFirstName() + " " + fixture.getLastName();
             assertThat(fullName).isEqualTo("Dr. Lisa Wilson");
             
             // Verify specialties are sorted
-            var specialties = vet.getSpecialties();
+            var specialties = fixture.getSpecialties();
             assertThat(specialties.get(0).getName()).isEqualTo("Cardiology");
             assertThat(specialties.get(1).getName()).isEqualTo("Surgery");
         }
@@ -641,26 +640,26 @@ class VetTest {
         @Test
         @DisplayName("can handle null specialty in addSpecialty")
         void canHandleNullSpecialtyInAddSpecialty() {
-            vet.addSpecialty(null);
+            fixture.addSpecialty(null);
             // AS-IS: HashSet accepts null specialty
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
-            assertThat(vet.getSpecialties()).hasSize(1);
-            assertThat(vet.getSpecialties().get(0)).isNull();
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(1);
+            assertThat(fixture.getSpecialties()).hasSize(1);
+            assertThat(fixture.getSpecialties().get(0)).isNull();
         }
 
         @Test
         @DisplayName("can handle null specialties list in setSpecialties")
         void canHandleNullSpecialtiesListInSetSpecialties() {
             org.junit.jupiter.api.Assertions.assertThrows(NullPointerException.class,
-                () -> vet.setSpecialties(null));
+                () -> fixture.setSpecialties(null));
         }
 
         @Test
         @DisplayName("can handle empty specialties list in setSpecialties")
         void canHandleEmptySpecialtiesListInSetSpecialties() {
             var emptyList = new ArrayList<Specialty>();
-            vet.setSpecialties(emptyList);
-            assertThat(vet.getSpecialties()).isEmpty();
+            fixture.setSpecialties(emptyList);
+            assertThat(fixture.getSpecialties()).isEmpty();
         }
 
         @Test
@@ -669,12 +668,12 @@ class VetTest {
             var surgery = new Specialty();
             surgery.setName("Surgery");
             
-            vet.addSpecialty(surgery);
-            vet.addSpecialty(surgery); // Add same specialty again
+            fixture.addSpecialty(surgery);
+            fixture.addSpecialty(surgery); // Add same specialty again
             
             // HashSet should prevent duplicates
-            assertThat(vet.getSpecialties()).hasSize(1);
-            assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
+            assertThat(fixture.getSpecialties()).hasSize(1);
+            assertThat(fixture.getNrOfSpecialties()).isEqualTo(1);
         }
 
         @Test
@@ -683,12 +682,11 @@ class VetTest {
             var surgery = new Specialty();
             surgery.setName("Surgery");
             
-            var internal1 = vet.getSpecialtiesInternal();
-            vet.addSpecialty(surgery);
-            var internal2 = vet.getSpecialtiesInternal();
+            var internal1 = fixture.getSpecialtiesInternal();
+            fixture.addSpecialty(surgery);
+            var internal2 = fixture.getSpecialtiesInternal();
             
-            assertThat(internal1).isSameAs(internal2);
-            assertThat(internal1).hasSize(1);
+            assertThat(internal1).isSameAs(internal2).hasSize(1);
         }
     }
 }

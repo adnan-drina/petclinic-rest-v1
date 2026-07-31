@@ -206,7 +206,6 @@ class PetTypeTest {
         @Test
         @DisplayName("can handle numeric pet type names")
         void canHandleNumericPetTypeNames() {
-            var petType = new PetType();
             fixture.setName("Species 12345");
             assertThat(fixture.getName()).isEqualTo("Species 12345");
         }
@@ -233,7 +232,6 @@ class PetTypeTest {
         @Test
         @DisplayName("can be assigned to Pet type field")
         void canBeAssignedToPetTypeField() {
-            var petType = new PetType();
             fixture.setName("Dog");
 
             var pet = new Pet();
@@ -298,7 +296,6 @@ class PetTypeTest {
         @Test
         @DisplayName("complete inheritance chain works correctly")
         void completeInheritanceChainWorksCorrectly() {
-            var petType = new PetType();
             fixture.setId(100);
             fixture.setName("Dog");
 
@@ -316,7 +313,6 @@ class PetTypeTest {
         @DisplayName("can be used in JPA relationships")
         void canBeUsedInJpaRelationships() throws Exception {
             // PetType is used in ManyToOne relationship in Pet entity
-            var petType = new PetType();
             fixture.setName("Cat");
 
             var pet = new Pet();
@@ -361,7 +357,6 @@ class PetTypeTest {
         @Test
         @DisplayName("can handle Unicode characters")
         void canHandleUnicodeCharacters() {
-            var petType = new PetType();
             fixture.setName("宠物 (Pet)");
             assertThat(fixture.getName()).isEqualTo("宠物 (Pet)");
         }
@@ -382,7 +377,6 @@ class PetTypeTest {
         @Test
         @DisplayName("can be created with null name")
         void canBeCreatedWithNullName() {
-            var petType = new PetType();
             assertThat(fixture.getName()).isNull();
             assertThat(fixture.toString()).isNull();
         }
@@ -390,7 +384,6 @@ class PetTypeTest {
         @Test
         @DisplayName("can be created with empty name")
         void canBeCreatedWithEmptyName() {
-            var petType = new PetType();
             fixture.setName("");
             assertThat(fixture.getName()).isEmpty();
             assertThat(fixture.toString()).isEmpty();
