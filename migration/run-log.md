@@ -5,3 +5,4 @@ Appended by the Hermes orchestrator after every task (see
 
 | Task | Class | Attempts | Result | Files |
 |---|---|---|---|---|
+T-001 | rewrite | 1 | SUCCESS | Created missing src/test/java/com/demo/util/.gitkeep file; package structure now complete
