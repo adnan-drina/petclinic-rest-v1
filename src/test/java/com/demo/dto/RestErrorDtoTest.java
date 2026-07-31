@@ -1,26 +1,11 @@
 package com.demo.dto;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.time.OffsetDateTime;
-import java.net.URI;
-import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class RestErrorDtoTest {
-
-    private Validator validator;
-
-    @BeforeEach
-    void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-    }
 
     @Test
     void testRestErrorDtoCreation() {

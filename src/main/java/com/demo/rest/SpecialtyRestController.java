@@ -103,7 +103,7 @@ public class SpecialtyRestController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         
-        currentSpecialty.setName(specialtyDto.getName());
+        currentSpecialty.setName(specialtyDto.name());
         this.clinicService.saveSpecialty(currentSpecialty);
         return Response.ok(specialtyMapper.toSpecialtyDto(currentSpecialty)).build();
     }

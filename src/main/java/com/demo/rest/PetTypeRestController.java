@@ -99,7 +99,7 @@ public class PetTypeRestController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         
-        currentPetType.setName(petType.getName());
+        currentPetType.setName(petType.name());
         this.clinicService.savePetType(currentPetType);
         return Response.ok(petTypeMapper.toPetTypeDto(currentPetType)).build();
     }

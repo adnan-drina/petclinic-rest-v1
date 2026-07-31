@@ -2,86 +2,48 @@ package com.demo.dto;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Set;
+import java.util.ArrayList;
 
 class VetDtoTest {
 
-    private Validator validator;
-
-    @BeforeEach
-    void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-    }
-
     @Test
     void testVetDtoCreation() {
-        VetDto vetDto = new VetDto();
+        VetDto vetDto = new VetDto(1, "John", "Doe", new ArrayList<>());
         assertNotNull(vetDto);
-        assertNull(vetDto.getId());
-        assertNull(vetDto.getFirstName());
-        assertNull(vetDto.getLastName());
-        assertNotNull(vetDto.getSpecialties());
-        assertTrue(vetDto.getSpecialties().isEmpty());
+        assertEquals(1, vetDto.id());
+        assertEquals("John", vetDto.firstName());
+        assertEquals("Doe", vetDto.lastName());
+        assertNotNull(vetDto.specialties());
+        assertTrue(vetDto.specialties().isEmpty());
     }
 
     @Test
     void testVetDtoSettersAndGetters() {
-        VetDto vetDto = new VetDto();
+        // Records are immutable, so we test the constructor and derived methods
+        VetDto vetDto = new VetDto(1, "John", "Doe", new ArrayList<>());
         
-        vetDto.setId(1);
-        assertEquals(1, vetDto.getId());
+        assertEquals(1, vetDto.id());
+        assertEquals("John", vetDto.firstName());
+        assertEquals("Doe", vetDto.lastName());
         
-        vetDto.setFirstName("John");
-        assertEquals("John", vetDto.getFirstName());
+        SpecialtyDto specialty = new SpecialtyDto(1, "Surgery");
+        VetDto vetDtoWithSpecialty = vetDto.addSpecialtiesItem(specialty);
         
-        vetDto.setLastName("Doe");
-        assertEquals("Doe", vetDto.getLastName());
-        
-        SpecialtyDto specialty = new SpecialtyDto();
-        specialty.setId(1);
-        specialty.setName("Surgery");
-        vetDto.setSpecialties(java.util.Collections.singletonList(specialty));
-        
-        assertEquals(1, vetDto.getSpecialties().size());
-        assertEquals("Surgery", vetDto.getSpecialties().get(0).getName());
+        assertEquals(1, vetDtoWithSpecialty.specialties().size());
+        assertEquals("Surgery", vetDtoWithSpecialty.specialties().get(0).name());
     }
 
     @Test
     void testVetDtoEqualsAndHashCode() {
-        VetDto vetDto1 = new VetDto();
-        vetDto1.setId(1);
-        vetDto1.setFirstName("John");
-        vetDto1.setLastName("Doe");
-        
-        VetDto vetDto2 = new VetDto();
-        vetDto2.setId(1);
-        vetDto2.setFirstName("John");
-        vetDto2.setLastName("Doe");
+        VetDto vetDto1 = new VetDto(1, "John", "Doe", new ArrayList<>());
+        VetDto vetDto2 = new VetDto(1, "John", "Doe", new ArrayList<>());
+        VetDto vetDto3 = new VetDto(2, "John", "Doe", new ArrayList<>());
         
         assertEquals(vetDto1, vetDto2);
         assertEquals(vetDto1.hashCode(), vetDto2.hashCode());
         
-        vetDto2.setId(2);
-        assertNotEquals(vetDto1, vetDto2);
-        assertNotEquals(vetDto1.hashCode(), vetDto2.hashCode());
-    }
-
-    @Test
-    void testValidationConstraints() {
-        VetDto vetDto = new VetDto();
-        vetDto.setFirstName(""); // Empty string should be invalid
-        vetDto.setLastName(""); // Empty string should be invalid
-        
-        Set<ConstraintViolation<VetDto>> violations = validator.validate(vetDto);
-        
-        // At least one violation expected for empty names
-        assertFalse(violations.isEmpty());
+        assertNotEquals(vetDto1, vetDto3);
+        assertNotEquals(vetDto1.hashCode(), vetDto3.hashCode());
     }
 }

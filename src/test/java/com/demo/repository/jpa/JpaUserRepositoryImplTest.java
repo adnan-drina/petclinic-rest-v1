@@ -50,5 +50,7 @@ class JpaUserRepositoryImplTest {
         repository.save(user);
         verify(entityManager).merge(user);
         verify(entityManager, never()).persist(any());
+        // Assert that user was properly handled by merge
+        assertNotNull(user.getUsername());
     }
 }

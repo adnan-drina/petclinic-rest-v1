@@ -1,53 +1,35 @@
 package com.demo.dto;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class RoleDtoTest {
 
-    private Validator validator;
-
-    @BeforeEach
-    void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-    }
-
     @Test
     void testRoleDtoCreation() {
-        RoleDto roleDto = new RoleDto();
+        RoleDto roleDto = new RoleDto("USER");
         assertNotNull(roleDto);
-        assertNull(roleDto.getName());
+        assertEquals("USER", roleDto.name());
     }
 
     @Test
     void testRoleDtoSettersAndGetters() {
-        RoleDto roleDto = new RoleDto();
-        
-        roleDto.setName("ADMIN");
-        assertEquals("ADMIN", roleDto.getName());
+        // Records are immutable, so we test the constructor
+        RoleDto roleDto = new RoleDto("ADMIN");
+        assertEquals("ADMIN", roleDto.name());
     }
 
     @Test
     void testRoleDtoEqualsAndHashCode() {
-        RoleDto roleDto1 = new RoleDto();
-        roleDto1.setName("USER");
-        
-        RoleDto roleDto2 = new RoleDto();
-        roleDto2.setName("USER");
+        RoleDto roleDto1 = new RoleDto("USER");
+        RoleDto roleDto2 = new RoleDto("USER");
+        RoleDto roleDto3 = new RoleDto("ADMIN");
         
         assertEquals(roleDto1, roleDto2);
         assertEquals(roleDto1.hashCode(), roleDto2.hashCode());
         
-        roleDto2.setName("ADMIN");
-        assertNotEquals(roleDto1, roleDto2);
-        assertNotEquals(roleDto1.hashCode(), roleDto2.hashCode());
+        assertNotEquals(roleDto1, roleDto3);
+        assertNotEquals(roleDto1.hashCode(), roleDto3.hashCode());
     }
 }

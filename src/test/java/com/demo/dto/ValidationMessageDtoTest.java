@@ -1,8 +1,9 @@
 package com.demo.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ValidationMessageDtoTest {
 
@@ -21,7 +22,7 @@ class ValidationMessageDtoTest {
         ValidationMessageDto b = new ValidationMessageDto().message("x");
         ValidationMessageDto c = new ValidationMessageDto().message("y");
         assertThat(a).isEqualTo(b).isNotEqualTo(c);
-        assertThat(a.hashCode()).isEqualTo(b.hashCode());
+        assertEquals(a.hashCode(), b.hashCode());
     }
 
     @Test

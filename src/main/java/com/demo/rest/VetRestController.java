@@ -108,10 +108,10 @@ public class VetRestController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         
-        currentVet.setFirstName(vetDto.getFirstName());
-        currentVet.setLastName(vetDto.getLastName());
+        currentVet.setFirstName(vetDto.firstName());
+        currentVet.setLastName(vetDto.lastName());
         currentVet.clearSpecialties();
-        for (Specialty spec : specialtyMapper.toSpecialtys(vetDto.getSpecialties())) {
+        for (Specialty spec : specialtyMapper.toSpecialtys(vetDto.specialties())) {
             currentVet.addSpecialty(spec);
         }
         this.clinicService.saveVet(currentVet);

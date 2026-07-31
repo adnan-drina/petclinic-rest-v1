@@ -1,24 +1,10 @@
 package com.demo.dto;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.util.Set;
-
 class UserDtoTest {
-
-    private Validator validator;
-
-    @BeforeEach
-    void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-    }
 
     @Test
     void testUserDtoCreation() {
@@ -43,12 +29,11 @@ class UserDtoTest {
         userDto.setEnabled(true);
         assertEquals(true, userDto.getEnabled());
         
-        RoleDto role = new RoleDto();
-        role.setName("USER");
+        RoleDto role = new RoleDto("USER");
         userDto.setRoles(java.util.Collections.singletonList(role));
         
         assertEquals(1, userDto.getRoles().size());
-        assertEquals("USER", userDto.getRoles().get(0).getName());
+        assertEquals("USER", userDto.getRoles().get(0).name());
     }
 
     @Test

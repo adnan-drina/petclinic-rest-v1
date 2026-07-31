@@ -1,20 +1,12 @@
 package com.demo.repository.springdatajpa;
 
 import com.demo.model.Pet;
-import com.demo.model.PetType;
-import com.demo.model.Owner;
-import com.demo.repository.PetRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.Answer;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
