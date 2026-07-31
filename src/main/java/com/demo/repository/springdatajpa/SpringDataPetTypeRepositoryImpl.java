@@ -18,6 +18,7 @@ package com.demo.repository.springdatajpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import jakarta.inject.Inject;
 import com.demo.model.Pet;
 import com.demo.model.PetType;
@@ -30,6 +31,7 @@ import java.util.List;
  */
 
 @ApplicationScoped
+@Transactional
 public class SpringDataPetTypeRepositoryImpl implements PetTypeRepositoryOverride {
     
     private final EntityManager em;

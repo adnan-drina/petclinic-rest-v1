@@ -18,6 +18,7 @@ package com.demo.repository.springdatajpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import jakarta.inject.Inject;
 import com.demo.model.Visit;
 
@@ -27,6 +28,7 @@ import com.demo.model.Visit;
  */
 
 @ApplicationScoped
+@Transactional
 public class SpringDataVisitRepositoryImpl implements VisitRepositoryOverride {
     
     private final EntityManager em;
