@@ -2,6 +2,7 @@ package com.demo.repository.springdatajpa;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.hamcrest.Matchers.*;
 
 import com.demo.model.Pet;
 import com.demo.model.PetType;
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

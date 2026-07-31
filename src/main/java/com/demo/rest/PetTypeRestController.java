@@ -48,7 +48,10 @@ public class PetTypeRestController {
     @GET
     public Response getAllPetTypes() {
         Collection<PetType> petTypes = new ArrayList<>();
-        petTypes.addAll(this.clinicService.findAllPetTypes());
+        Collection<PetType> foundPetTypes = this.clinicService.findAllPetTypes();
+        if (foundPetTypes != null) {
+            petTypes.addAll(foundPetTypes);
+        }
         if (petTypes.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

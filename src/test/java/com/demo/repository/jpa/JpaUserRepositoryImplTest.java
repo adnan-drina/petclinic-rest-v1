@@ -2,7 +2,6 @@ package com.demo.repository.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,7 +45,7 @@ class JpaUserRepositoryImplTest {
     void saveMergesExistingUser() {
         User user = new User();
         user.setUsername("jdoe");
-        when(entityManager.find(eq(User.class), eq("jdoe"))).thenReturn(user);
+        when(entityManager.find(User.class, "jdoe")).thenReturn(user);
         repository.save(user);
         verify(entityManager).merge(user);
         verify(entityManager, never()).persist(any());

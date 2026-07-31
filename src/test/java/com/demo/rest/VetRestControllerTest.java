@@ -3,7 +3,6 @@ package com.demo.rest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.demo.dto.SpecialtyDto;
 import com.demo.dto.VetDto;
 import com.demo.mapper.SpecialtyMapper;
 import com.demo.mapper.VetMapper;
