@@ -2963,6 +2963,63 @@ run_case() {
 }
 check "analyze.sh runs gen-contract-rules before kantra (K4)" 0 "k4wire-ok"
 
+# O-STAMP-AUTO / O-STAMP-GATE (F-4)
+STAMP_FIX="$HARNESS_DIR/tests/fixtures"
+run_case() {
+  mkfix
+  legacy="$STAMP_FIX/stamp-petclinic"
+  python3 "$HARNESS_DIR/contract-stamp.py" stamp --legacy "$legacy" --yaml migration.yaml --write --json \
+    | python3 -c "import json,sys; d=json.load(sys.stdin); a=d['acceptance']; m=d['migration']; \
+assert m['legacyPackage']=='org.springframework.samples.petclinic'; \
+assert a['path']=='/petclinic/api/vets'; assert a['collection']=='_array'; \
+assert a['getter']=='getAllVets'; assert a['service']=='ClinicService'; \
+assert a['itemType']=='VetDto'; print('stamp-petclinic-ok')"
+}
+check "contract-stamp petclinic fixture matches F-2 acceptance (O-STAMP-AUTO)" 0 "stamp-petclinic-ok"
+
+run_case() {
+  mkfix
+  legacy="$STAMP_FIX/stamp-petclinic"
+  python3 "$HARNESS_DIR/contract-stamp.py" stamp --legacy "$legacy" --yaml migration.yaml --write >/dev/null
+  python3 "$HARNESS_DIR/contract-stamp-gate.py" --legacy "$legacy" --yaml migration.yaml \
+    && echo stamp-petclinic-gate-ok
+}
+check "contract-stamp petclinic gate GREEN (O-STAMP-GATE)" 0 "stamp-petclinic-gate-ok"
+
+run_case() {
+  mkfix
+  legacy="$STAMP_FIX/stamp-cart"
+  python3 "$HARNESS_DIR/contract-stamp.py" stamp --legacy "$legacy" --yaml migration.yaml --write --json \
+    | python3 -c "import json,sys; d=json.load(sys.stdin); a=d['acceptance']; m=d['migration']; \
+assert m['legacyPackage']=='com.redhat.coolstore' and m['targetPackage']=='com.demo'; \
+assert a['path']=='/api/cart/acceptance-check' and a['collection']=='products'; \
+assert a['getter']=='getProducts' and a['service']=='CatalogService'; \
+assert a['itemType']=='Product' and a['endpointEnv']=='CATALOG_ENDPOINT'; \
+assert a['needsDatabase'] is False; print('stamp-cart-ok')"
+}
+check "contract-stamp cart fixture regression (O-STAMP-AUTO)" 0 "stamp-cart-ok"
+
+run_case() {
+  mkfix
+  legacy="$STAMP_FIX/stamp-surfaceless"
+  python3 "$HARNESS_DIR/contract-stamp.py" stamp --legacy "$legacy" --yaml migration.yaml --write --json \
+    | python3 -c "import json,sys; d=json.load(sys.stdin); \
+assert d['contract']['status']=='UNDECIDED'; assert d['acceptance']['path']=='UNDECIDED'; \
+print('stamp-undecided-ok')"
+  rc=0
+  python3 "$HARNESS_DIR/contract-stamp-gate.py" --legacy "$legacy" --yaml migration.yaml >/dev/null 2>&1 || rc=$?
+  [ "$rc" = "1" ] && echo gate-hold-ok
+}
+check "contract-stamp surface-less → UNDECIDED + gate hold (O-STAMP-GATE)" 0 "gate-hold-ok"
+
+run_case() {
+  grep -q 'O-STAMP-AUTO' "$HARNESS_DIR/outer-loop.sh" \
+    && grep -q 'contract-stamp.py' "$HARNESS_DIR/outer-loop.sh" \
+    && grep -q 'contract-stamp-gate.py' "$HARNESS_DIR/outer-loop.sh" \
+    && echo stamp-wire-ok
+}
+check "outer-loop wires contract-stamp before M1 analyze (O-STAMP-AUTO)" 0 "stamp-wire-ok"
+
 # K12 — adversarial refute
 run_case() {
   mkfix

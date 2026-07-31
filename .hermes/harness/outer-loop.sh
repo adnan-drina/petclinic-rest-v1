@@ -137,6 +137,33 @@ fi
 phase_start "Outer loop — autonomous migration" \
   "Models: $(orch_label) · $(worker_label) | progress: $LOG | resume: $STATE"
 
+# O-STAMP-AUTO: derive migration.yaml from legacy tree before M1 ground truth.
+LEGACY_ROOT="${LEGACY_ROOT:-/projects/legacy}"
+if [ -d "$LEGACY_ROOT" ]; then
+  phase_start "M1 contract stamp — auto-derived specimen contract (O-STAMP-AUTO)"
+  if python3 "$HARNESS/contract-stamp.py" stamp --legacy "$LEGACY_ROOT" --yaml migration.yaml --write \
+      >> "$LOG" 2>&1; then
+    if git diff --quiet migration.yaml 2>/dev/null; then
+      log "         contract-stamp: migration.yaml already current"
+    else
+      git add migration.yaml
+      if git commit -m "M1 contract: auto-derived specimen stamp" >> "$LOG" 2>&1; then
+        log "         contract-stamp: committed migration.yaml"
+      else
+        log "         contract-stamp: migration.yaml updated (commit skipped — review tree)"
+      fi
+    fi
+  else
+    fail_run "M1 contract stamp — contract-stamp.py failed (see $LOG)"
+  fi
+  if ! python3 "$HARNESS/contract-stamp-gate.py" --legacy "$LEGACY_ROOT" --yaml migration.yaml >> "$LOG" 2>&1; then
+    fail_run "M1 contract stamp gate — O-STAMP-GATE RED (see $LOG)"
+  fi
+  phase_ok "M1 contract stamp — O-STAMP-GATE GREEN"
+else
+  log "WARN: LEGACY_ROOT $LEGACY_ROOT missing — skipping O-STAMP-AUTO"
+fi
+
 # ------------------------------------------------------------- M1 ANALYZE
 phase_start "M1 ANALYZE — establish migration ground truth (MTA + recipes)" \
   "Actor: harness scripts (no LLM)"
