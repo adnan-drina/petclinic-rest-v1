@@ -1,12 +1,12 @@
 package com.demo.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-import com.demo.dto.*;
-import com.demo.mapper.*;
-import com.demo.model.*;
-import com.demo.service.*;
+import com.demo.dto.UserDto;
+import com.demo.mapper.UserMapper;
+import com.demo.model.User;
+import com.demo.service.UserService;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import org.junit.jupiter.api.BeforeEach;

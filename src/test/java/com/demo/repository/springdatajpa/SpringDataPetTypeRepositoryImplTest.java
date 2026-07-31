@@ -1,8 +1,7 @@
 package com.demo.repository.springdatajpa;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
-import static org.hamcrest.Matchers.*;
 
 import com.demo.model.Pet;
 import com.demo.model.PetType;

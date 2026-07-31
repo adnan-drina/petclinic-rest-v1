@@ -1,6 +1,6 @@
 package com.demo.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.demo.dto.VisitDto;
@@ -16,7 +16,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 class VisitRestControllerTest {
 

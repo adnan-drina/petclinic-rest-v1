@@ -1,12 +1,11 @@
 package com.demo.rest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.demo.dto.VetDto;
 import com.demo.mapper.SpecialtyMapper;
 import com.demo.mapper.VetMapper;
-import com.demo.model.Specialty;
 import com.demo.model.Vet;
 import com.demo.service.ClinicService;
 import jakarta.ws.rs.core.Response;
@@ -16,7 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.net.URI;
 
 class VetRestControllerTest {
