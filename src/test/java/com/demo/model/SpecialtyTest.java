@@ -271,7 +271,6 @@ class SpecialtyTest {
         @Test
         @DisplayName("can be changed on existing Vet")
         void canBeChangedOnExistingVet() {
-            var vet = new Vet();
             // Specialty can be added/removed from Vet's specialties set
             var internalMedicine = new Specialty();
             internalMedicine.setName("Internal Medicine");
