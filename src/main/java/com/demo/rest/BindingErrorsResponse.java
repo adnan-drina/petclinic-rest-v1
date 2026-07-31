@@ -18,6 +18,7 @@ package com.demo.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import jakarta.validation.ConstraintViolation;
 
@@ -32,6 +33,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 
 public class BindingErrorsResponse {
+
+    private static final Logger logger = Logger.getLogger(BindingErrorsResponse.class.getName());
 
     public BindingErrorsResponse() {
         this(null);
@@ -85,7 +88,7 @@ public class BindingErrorsResponse {
 		try {
 			errorsAsJSON = mapper.writeValueAsString(bindingErrors);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			logger.severe("Failed to serialize binding errors to JSON: " + e.getMessage());
 		}
 		return errorsAsJSON;
 	}

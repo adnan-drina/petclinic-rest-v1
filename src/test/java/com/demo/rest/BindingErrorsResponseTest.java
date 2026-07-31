@@ -96,6 +96,15 @@ class BindingErrorsResponseTest {
             var node = parseJson(json);
             assertThat(node.size()).isZero();
         }
+
+        @Test
+        @DisplayName("two-arg constructor with matching IDs adds no error (branch coverage)")
+        void twoArgConstructorWithMatchingIdsBranchCoverage() {
+            var response = new BindingErrorsResponse(10, 10);
+            var json = response.toJSON();
+            var node = parseJson(json);
+            assertThat(node.size()).isZero();
+        }
     }
 
     @Nested
@@ -233,6 +242,37 @@ class BindingErrorsResponseTest {
             assertThat(node.has("fieldName")).isTrue();
             assertThat(node.has("fieldValue")).isTrue();
             assertThat(node.has("errorMessage")).isTrue();
+        }
+
+        @Test
+        @DisplayName("handles JSON serialization failure gracefully")
+        void handlesJsonSerializationFailure() throws Exception {
+            // Test exception path by creating an object with non-serializable field
+            var response = new BindingErrorsResponse();
+
+            // Use reflection to add an object that will cause JSON serialization to fail
+            var bindingErrorsField = response.getClass().getDeclaredField("bindingErrors");
+            bindingErrorsField.setAccessible(true);
+            @SuppressWarnings("unchecked")
+            var errors = (java.util.List<BindingError>) bindingErrorsField.get(response);
+            
+            // Add an anonymous class that will cause Jackson to fail
+            errors.add(new BindingError() {
+                private final Object cyclicRef = this; // This will cause serialization failure
+                
+                @Override
+                public String toString() {
+                    return "CyclicObject";
+                }
+            });
+            
+            // The method should handle the failure gracefully - it should return empty string
+            var json = response.toJSON();
+            // The method should return empty string when serialization fails
+            assertThat(json).isEmpty();
+            
+            // With the new logging approach, we don't capture stderr anymore
+            // The logging is proper and the exception is handled gracefully
         }
     }
 
