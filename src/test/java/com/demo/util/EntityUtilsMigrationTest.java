@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -308,7 +307,7 @@ class EntityUtilsMigrationTest {
 
             List<SampleEntity> filtered = list.stream()
                     .filter(e -> e.getId() != null && e.getId() > 1)
-                    .collect(Collectors.toList());
+                    .toList();
 
             assertThat(filtered).hasSize(2);
             assertThat(filtered.get(0).getId()).isEqualTo(2);
