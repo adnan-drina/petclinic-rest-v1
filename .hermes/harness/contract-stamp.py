@@ -324,6 +324,34 @@ def _scan_endpoints(root: Path, ctx: str) -> list[EndpointCandidate]:
     return candidates
 
 
+def _derive_endpoint_env(root: Path) -> str | None:
+    """First ${ENV} from legacy config that looks like a REST client endpoint.
+
+    Migration-general: only stamp acceptance.endpointEnv when the legacy tree
+    actually references an env var (e.g. cart catalog URL placeholder).
+    Specimens without a remote REST client omit the field entirely (R-93 P2).
+    """
+    found: list[str] = []
+    resources = root / "src" / "main" / "resources"
+    paths: list[Path] = []
+    if resources.is_dir():
+        paths.extend(sorted(resources.glob("application*.properties")))
+        paths.extend(sorted(resources.glob("application*.yml")))
+        paths.extend(sorted(resources.glob("application*.yaml")))
+    for jf in _java_files(root):
+        paths.append(jf)
+    pat = re.compile(
+        r"\$\{([A-Z][A-Z0-9_]*(?:ENDPOINT|URL|URI|_HOST))(?::[^}]*)?\}"
+    )
+    for path in paths:
+        text = _read_text(path)
+        for m in pat.finditer(text):
+            name = m.group(1)
+            if name not in found:
+                found.append(name)
+    return found[0] if found else None
+
+
 def _id_fields(root: Path, item_type: str) -> list[str]:
     simple = _strip_generics(item_type)
     for jf in _java_files(root):
@@ -454,8 +482,11 @@ def derive_stamp(root: Path, prefer_path: str | None = None) -> StampResult:
         "itemType": top.item_type,
         "needsDatabase": _needs_database(root),
     }
-    if top.collection == "products":
-        acc["endpointEnv"] = "CATALOG_ENDPOINT"
+    # Derive endpointEnv from legacy config (${FOO_ENDPOINT} / ${FOO_URL}).
+    # Never hardcode a specimen env name (R-93 P2) — ALLOWED: derived-only.
+    endpoint_env = _derive_endpoint_env(root)
+    if endpoint_env:
+        acc["endpointEnv"] = endpoint_env
     acc["idFields"] = _id_fields(root, top.item_type)
     res.acceptance = acc
     res.contract_status = "decided"
