@@ -16,7 +16,6 @@
 package com.demo.rest;
 
 import com.demo.dto.PetDto;
-import com.demo.dto.PetTypeDto;
 import com.demo.mapper.PetMapper;
 import com.demo.model.Pet;
 import com.demo.service.ClinicService;
