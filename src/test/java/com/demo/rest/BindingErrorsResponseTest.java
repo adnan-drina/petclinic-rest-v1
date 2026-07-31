@@ -256,9 +256,10 @@ class BindingErrorsResponseTest {
             @SuppressWarnings("unchecked")
             var errors = (java.util.List<BindingError>) bindingErrorsField.get(response);
             
-            // Add an anonymous class that will cause Jackson to fail
+            // Add a simple anonymous class that will cause Jackson to fail with cyclic reference
             errors.add(new BindingError() {
-                private final Object cyclicRef = this; // This will cause serialization failure
+                // This field creates a self-reference that Jackson cannot serialize
+                private final BindingError cyclicRef = this;
                 
                 @Override
                 public String toString() {
