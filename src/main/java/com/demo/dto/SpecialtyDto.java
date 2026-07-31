@@ -26,7 +26,7 @@ public class SpecialtyDto   {
    * The ID of the specialty.
    * minimum: 0
    * @return id
-  */
+   */
     @NotNull
 
 @Min(0)
@@ -46,7 +46,7 @@ public class SpecialtyDto   {
   /**
    * The name of the specialty.
    * @return name
-  */
+   */
     @NotNull
 
 @Size(min=1,max=80) 

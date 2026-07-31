@@ -26,7 +26,7 @@ public class PetTypeDto   {
    * The ID of the pet type.
    * minimum: 0
    * @return id
-  */
+   */
     @NotNull
 
 @Min(0)
@@ -46,8 +46,9 @@ public class PetTypeDto   {
   /**
    * The name of the pet type.
    * @return name
-  */
-  
+   */
+    @NotNull
+
 @Size(min=1,max=80) 
   public String getName() {
     return name;
@@ -97,4 +98,3 @@ public class PetTypeDto   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
