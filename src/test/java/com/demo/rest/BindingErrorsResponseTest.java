@@ -135,7 +135,7 @@ class BindingErrorsResponseTest {
 
         @Test
         @DisplayName("adds errors from ConstraintViolation list")
-        void addsErrorsFromViolations() throws Exception {
+        void addsErrorsFromViolations() {
             var response = new BindingErrorsResponse();
 
             var path = mock(Path.class);
@@ -162,7 +162,7 @@ class BindingErrorsResponseTest {
 
         @Test
         @DisplayName("adds errors from multiple violations")
-        void addsMultipleViolations() throws Exception {
+        void addsMultipleViolations() {
             var response = new BindingErrorsResponse();
 
             var path1 = mock(Path.class);
