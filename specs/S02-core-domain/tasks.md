@@ -92,28 +92,7 @@
 |**Target**: → `src/main/java/com/demo/repository/` (OwnerRepository, PetRepository, PetTypeRepository, SpecialtyRepository, UserRepository, VetRepository, VisitRepository, SpringData* interfaces)
 |**Owns**: `/projects/legacy/src/main/java/org/springframework/samples/petclinic/repository/*.java`
 
-#### T-005: Harvest MapStruct mappers with Jakarta updates
-
-|**Class**: rewrite
-|
-|**Findings**: javax-to-jakarta-import-00001
-|
-|**Goal**: Update mapper interfaces and regenerate implementations
-|
-|**Target design**: → `src/main/java/com/demo/mapper/*.java`
-|
-|**Task Details**:
-- Copy mapper interfaces from `src/main/java/org/springframework/samples/petclinic/mapper/`
-- Update package: `org.springframework.samples.petclinic.mapper` → `com.demo.mapper`
-- Regenerate mapper implementations using MapStruct
-- Update component scanning for Quarkus: `@Component` → no annotation needed (auto-discovery)
-- Ensure DTO mappings use updated target package
-- Verify bidirectional mappings between entities and DTOs
-
-|**Target**: → `src/main/java/com/demo/mapper/*.java` (OwnerMapper, PetMapper, PetTypeMapper, SpecialtyMapper, UserMapper, VetMapper, VisitMapper)
-|**Owns**: `/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/OwnerMapper.java`, '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/PetMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/PetTypeMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/SpecialtyMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/UserMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/VetMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/VisitMapper.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/OwnerMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/PetMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/PetTypeMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/SpecialtyMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/UserMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/VetMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/VisitMapperImpl.java'
-
-#### T-006: Harvest DTOs with Jakarta validation imports
+#### T-005: Harvest DTOs with Jakarta validation imports
 
 |**Class**: rewrite
 |
@@ -137,6 +116,27 @@
 ---
 
 ## Service Layer Modernization (REDESIGN)
+
+#### T-006: Harvest MapStruct mappers with Jakarta updates
+
+|**Class**: rewrite
+|
+|**Findings**: javax-to-jakarta-import-00001
+|
+|**Goal**: Update mapper interfaces and regenerate implementations
+|
+|**Target design**: → `src/main/java/com/demo/mapper/*.java`
+|
+|**Task Details**:
+- Copy mapper interfaces from `src/main/java/org/springframework/samples/petclinic/mapper/`
+- Update package: `org.springframework.samples.petclinic.mapper` → `com.demo.mapper`
+- Regenerate mapper implementations using MapStruct
+- Update component scanning for Quarkus: `@Component` → no annotation needed (auto-discovery)
+- Ensure DTO mappings use updated target package
+- Verify bidirectional mappings between entities and DTOs
+
+|**Target**: → `src/main/java/com/demo/mapper/*.java` (OwnerMapper, PetMapper, PetTypeMapper, SpecialtyMapper, UserMapper, VetMapper, VisitMapper)
+|**Owns**: `/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/OwnerMapper.java`, '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/PetMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/PetTypeMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/SpecialtyMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/UserMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/VetMapper.java', '/projects/legacy/src/main/java/org/springframework/samples/petclinic/mapper/VisitMapper.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/OwnerMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/PetMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/PetTypeMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/SpecialtyMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/UserMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/VetMapperImpl.java', '/projects/legacy/target/generated-sources/annotations/org/springframework/samples/petclinic/mapper/VisitMapperImpl.java'
 
 #### T-007: Convert ClinicServiceImpl to Quarkus CDI
 
