@@ -84,8 +84,8 @@ public class BindingErrorsResponse {
 		try {
 			return mapper.writeValueAsString(bindingErrors);
 		} catch (JsonProcessingException e) {
-			// Return empty array on serialization failure
-			return "[]";
+			// Return empty string on serialization failure
+			return "";
 		}
 	}
 
