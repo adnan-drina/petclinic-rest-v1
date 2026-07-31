@@ -121,8 +121,8 @@ public class BindingErrorsResponse {
 			this.fieldValue = fieldValue;
 		}
 
-		protected void setErrorMessage(String error_message) {
-			this.errorMessage = error_message;
+		protected void setErrorMessage(String errorMessage) {
+			this.errorMessage = errorMessage;
 		}
 
 		@Override

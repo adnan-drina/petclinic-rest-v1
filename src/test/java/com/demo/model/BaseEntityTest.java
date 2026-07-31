@@ -118,8 +118,7 @@ class BaseEntityTest {
         void serializesWithId() throws Exception {
             entity.setId(7);
             var json = mapper.writeValueAsString(entity);
-            assertThat(json).contains("\"id\"");
-            assertThat(json).contains("7");
+            assertThat(json).contains("\"id\"").contains("7");
         }
 
         @Test
