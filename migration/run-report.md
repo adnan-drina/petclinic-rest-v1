@@ -3,12 +3,12 @@
 ## Executive summary
 
 Autonomous migration of petclinic-rest-v1:
-factory not passed (build=0 gate=0 deploy=3 rounds). Findings delta and per-task detail: migration/run-log.md;
+success: shipped, route 200, 6 _array. Findings delta and per-task detail: migration/run-log.md;
 debt: migration/debt.md. Orchestrator custom:maas-m2/minimax-m2,
-worker qwen27b/qwen3-6-27b, 49 model sessions.
+worker qwen27b/qwen3-6-27b, 51 model sessions.
 
-- Outcome: factory not passed (build=0 gate=0 deploy=3 rounds)
-- Supervisor version: b835cd31; run base: d2f56d7d656dbd9c594440f2180c6975a2c9fc3d
+- Outcome: success: shipped, route 200, 6 _array
+- Supervisor version: 53c22dd5; run base: 520e17019e51107b16d1c086019949e1c5ad8e92
 - Orchestrator: custom:maas-m2/minimax-m2; worker: qwen27b/qwen3-6-27b
 
 ## Sessions
@@ -64,6 +64,8 @@ worker qwen27b/qwen3-6-27b, 49 model sessions.
 | deployfix-r1-a1p0 | 582 | rc=0 |
 | deployfix-r2-a1p0 | 17 | rc=130 |
 | deployfix-r2-a2p0 | 161 | rc=137 |
+| retro | 60 | rc=0 |
+| preflightfix-r1-a1p0 | 227 | rc=0 |
 
 - Escalations (KPI, from supervisor events): 0 (untested: 0)
 
@@ -77,15 +79,15 @@ worker qwen27b/qwen3-6-27b, 49 model sessions.
       9 worker_wedge_class
       8 style_autofix
       8 debt_recorded
+      6 quota
+      6 preflight_red
       6 already_complete
-      5 quota
-      5 preflight_red
       4 pipeline_failed
       3 sfix_committed_still_red
+      3 pipeline_succeeded
       2 timeout
       2 rule:springboot-annotations-to-quarkus-00002
       2 rule:javax-to-jakarta-import-00001
-      2 pipeline_succeeded
       2 mechanical_commit
       2 k12_refuted
       1 story_gate_pass
@@ -94,6 +96,8 @@ worker qwen27b/qwen3-6-27b, 49 model sessions.
       1 sensor_red_at_entry
       1 scope_violation
       1 orphan_worker
+      1 debt_retained
+      1 acceptance_pass
 ```
 
 ## Per-rule outcomes (K11)
