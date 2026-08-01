@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Migrated service</title>
+    <title>PetClinic REST API</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        .api-links { margin: 20px 0; }
+        .api-links a { display: block; margin: 10px 0; padding: 10px; background: #f5f5f5; text-decoration: none; color: #333; border-radius: 5px; }
+        .api-links a:hover { background: #e5e5e5; }
+    </style>
 </head>
 <body>
-  <h1>Service root</h1>
-  <p>Ship acceptance requires HTTP 200 on <code>/</code>. With
-  <code>quarkus.rest.path=/api</code>, JAX-RS resources live under
-  <code>/api</code>; this static page satisfies the root check.</p>
-  <ul>
-    <li><a href="/api/cart/acceptance-check">/api/cart/acceptance-check</a></li>
-    <li><a href="/q/health">/q/health</a></li>
-  </ul>
+    <h1>PetClinic REST API</h1>
+    <p>Welcome to the PetClinic REST API service.</p>
+    
+    <div class="api-links">
+        <a href="/petclinic/api/vets">View All Vets (API)</a>
+        <a href="/petclinic/q/health">Health Check</a>
+    </div>
+    
+    <p><small>Service is running and connected to the database.</small></p>
 </body>
 </html>
