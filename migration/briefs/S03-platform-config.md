@@ -117,7 +117,7 @@ the target (not the legacy):
 
 ### Property Files (REDESIGN - Quarkus format)
 - Role: Application configuration
-- Target: Quarkus application.properties with quarkus.datasource.* properties, remove Spring-specific prefixes, maintain HSQLDB/MySQL/PostgreSQL configurations
+- Target: Quarkus `application.properties` with `quarkus.datasource.*` aligned to **migration.yaml** (`needsDatabase: true` + deploy `dbService` PostgreSQL). **Primary DB is PostgreSQL only** (DECISION-DB / O-BRIEFCONF) — do not treat HSQLDB/MySQL profile files as deploy primaries. Preserve `quarkus.hibernate-orm.sql-load-script=import.sql` and explicit-column seed ownership already delivered for acceptance (schema/seed deliverable). Optional `%dev`/`application-*.properties` local profiles may remain for workstation use but must not flip default `db-kind` away from postgresql.
 
 ## Decided target shapes
 
