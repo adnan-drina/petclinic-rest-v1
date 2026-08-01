@@ -120,3 +120,8 @@ epoch,stage,attempt,class,action
 1785545701,deployfix-r2,2,no_commit,retrying
 1785545731,deployfix-r2,2,mechanical_commit,closure
 1785546083,m5-ship,0,pipeline_succeeded,petclinic-rest-v1-push-6796j
+1785546315,m5-ship,0,preflight_red,round=1
+1785546542,preflightfix-r1,1,quota,retrying
+1785547636,m5-ship,0,pipeline_succeeded,petclinic-rest-v1-push-dq6vf
+1785547647,m5-ship,0,acceptance_pass,route=200,_array=6
+1785547647,m5-ship,0,debt_retained,unresolved
