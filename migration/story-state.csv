@@ -6,3 +6,5 @@ S01,complete,1785501444
 S02,debt-freeze,1785526520
 S02,complete,1785547788
 S03,failed,1785564075
+# O-LEDGERFALSE: S03,failed at 28d5cdc was O-HOTSWAP re-enter budget race (operator kill); not a migration failure
+S03,superseded-false-fail,1785564119
